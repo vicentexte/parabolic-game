@@ -23,24 +23,38 @@
     "@vue/test-utils": "^2.4.6",
     "@vue/vue3-jest": "^29.2.6",
     "babel-jest": "^29.7.0",
-    "eslint": "^7.32.0",
-    "eslint-plugin-vue": "^8.0.3",
+    "eslint": "^8.0.0",
+    "eslint-plugin-jest": "^28.11.0",
+    "eslint-plugin-vue": "^9.33.0",
     "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0"
+    "jest-environment-jsdom": "^29.7.0",
+    "vue-eslint-parser": "^9.4.3"
   },
   "eslintConfig": {
     "root": true,
     "env": {
-      "node": true
+      "browser": true,
+      "node": true,
+      "jest/globals": true
     },
     "extends": [
+      "eslint:recommended",
       "plugin:vue/vue3-essential",
-      "eslint:recommended"
+      "plugin:jest/recommended"
+    ],
+    "plugins": [
+      "vue",
+      "jest"
     ],
     "parserOptions": {
       "parser": "@babel/eslint-parser"
     },
-    "rules": {}
+    "rules": {
+      "jest/no-disabled-tests": "warn",
+      "jest/no-focused-tests": "error",
+      "vue/no-unused-components": "warn",
+      "vue/multi-word-component-names": "off"
+    }
   },
   "browserslist": [
     "> 1%",
@@ -49,6 +63,7 @@
     "not ie 11"
   ],
   "jest": {
+    "version": 29,
     "moduleNameMapper": {
       "Phaser": "phaser/dist/phaser.js",
       "PhaserGame": "./src/components/PhaserGame.vue"
@@ -61,11 +76,19 @@
       "^.+\\.js$": "babel-jest",
       "^.+\\.(vue)$": "@vue/vue3-jest"
     },
-    "coveragePathIgnorePatterns": ["/node_modules/", "/tests/"],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/tests/"
+    ],
     "testEnvironment": "jsdom",
     "testEnvironmentOptions": {
-      "customExportConditions": ["node","node-addons"]
+      "customExportConditions": [
+        "node",
+        "node-addons"
+      ]
     },
-    "setupFiles": ["<rootDir>/jest.setup.js"]
+    "setupFiles": [
+      "<rootDir>/jest.setup.js"
+    ]
   }
 }

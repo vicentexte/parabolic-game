@@ -40,7 +40,7 @@ export default{
             },
             scene: {
                 preload() {
-                    this.load.image('sky', 'images/background.png');
+                    this.load.image('sky', require('@/assets/background.png'));
                     this.load.image('player', 'https://labs.phaser.io/assets/sprites/phaser-dude.png');
                 },
 
