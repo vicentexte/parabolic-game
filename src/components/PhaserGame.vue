@@ -16,7 +16,7 @@ export default {
       angle: 45,
       currentLevelIndex: 0,
       levels: [
-      { name: 'Tierra', gravityY: 980 },  // *10 para mayor efecto visual
+      { name: 'Tierra', gravityY: 550},  // *10 para mayor efecto visual
       { name: 'Luna', gravityY: 160 },
       { name: 'Marte', gravityY: 370 },
       { name: 'Júpiter', gravityY: 2480 }
@@ -24,6 +24,7 @@ export default {
     }
   },
   mounted() {
+    
     const vue = this
     let player
 
@@ -51,19 +52,23 @@ export default {
           this.load.image('sky', require('@/assets/background.png'))
           this.load.image('player', 'https://labs.phaser.io/assets/sprites/phaser-dude.png')
           this.load.image('goal', require('@/assets/goal.png')) 
+          
         },
         create() {
-
-
+          const PIXELS_PER_METER = 55   
+          const gravity_mps2 = vue.levels[vue.currentLevelIndex].gravityY / 10  // convertir gravedad a m/s²
+          this.physics.world.gravity.y = gravity_mps2 * PIXELS_PER_METER
+                 
+          
           this.physics.world.setBounds(0, 0, this.scale.width, this.scale.height);
           this.cameras.main.setBounds(0, 0, this.scale.width, this.scale.height);
-          
+          console.log("Ancho en pixeles: ",this.scale.width);
           this.add.image(0, 0, 'sky')
             .setOrigin(0)
             .setDisplaySize(3000, this.scale.height)
             .setScrollFactor(1);
 
-          player = new Player(this, 100, 300, 0, 0)
+          player = new Player(this, 0, 300, 0, 0)
           vue.playerInstance = player
 
                         const currentLevel = vue.levels[vue.currentLevelIndex]
@@ -107,7 +112,7 @@ export default {
 
           // Boton fire
           this.fireButton = this.add.dom(this.scale.width / 2, 200).createFromHTML(`
-            <button style="padding: 6px 12px; font-size: 16px;">FIRE!</button>
+            <button style="padding: 6px 12px; font-size: 16px;">¡Lanzar!</button>
           `)
 
           this.fireButton.addListener('click')
@@ -154,11 +159,20 @@ export default {
                 //this.mounted() // Reinicia Phaser con el nuevo nivel
               },
 
-    fire() {
-      this.playerInstance.angle = this.angle
-      this.playerInstance.velocity = this.velocity
-      this.playerInstance.fire()
-    }
+  fire() {
+    const angleRad = Phaser.Math.DegToRad(this.angle)
+    const PIXELS_PER_METER = 55   
+    // Velocidades en m/s
+    const velocityX_mps = this.velocity * Math.cos(angleRad)
+    const velocityY_mps = this.velocity * Math.sin(angleRad)
+
+    // Convertir a pixeles/segundo
+    const velocityX_px = velocityX_mps * PIXELS_PER_METER
+    const velocityY_px = -velocityY_mps * PIXELS_PER_METER // Negativo porque hacia arriba
+
+    this.playerInstance.fire(velocityX_px, velocityY_px)
+  }
+
   },
   beforeUnmount() {
     if (this.game) {
