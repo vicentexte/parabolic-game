@@ -1,5 +1,5 @@
 <template>
-  <div id="phaser-container" style="width: 100%; height: 100%;"></div>
+  <div id="phaser-container" class="game-container"></div>
 </template>
 
 <script>
@@ -17,10 +17,10 @@ export default {
       type: Phaser.AUTO,
       parent: 'phaser-container', 
       scale: {
-        mode: Phaser.Scale.RESIZE,
+        mode: Phaser.Scale.NONE,
         autoCenter: Phaser.Scale.CENTER_BOTH,
-        width: '100%',
-        height: '100%'
+        width: 1280,
+        height: 720
       },
       scene: [Earth],
       dom: {
@@ -33,7 +33,7 @@ export default {
       if (this.game) {
         this.game.destroy(true)
       }
-      //this.mounted() // Reinicia Phaser con el nuevo nivel
+      this.mounted() // Reinicia Phaser con el nuevo nivel
     },
   },
 
@@ -44,3 +44,13 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.game-container {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+</style>

@@ -8,17 +8,19 @@ export default class Earth extends Phaser.Scene{
       physics: {
         arcade: {
           debug: false,
-          gravity: {y: 550}
+          gravity: {y: 400}
         }
       }
     });
   }
-  PIXELS_PER_METER = 55;
+  PIXELS_PER_METER = 40;
   player;
         preload() {
           this.load.image('sky', require('@/assets/background.png'));
+          this.load.image('platform', require('@/assets/grass.png'));
           this.load.image('player', 'https://labs.phaser.io/assets/sprites/phaser-dude.png');
           this.load.image('goal', require('@/assets/goal.png')) ;
+          this.load.image('spikes', require('@/assets/spikes.png'))
         }
 
         create() {
@@ -28,15 +30,25 @@ export default class Earth extends Phaser.Scene{
             .setOrigin(0)
             .setDisplaySize(3000, this.scale.height)
             .setScrollFactor(1);
-          this.goal = this.physics.add.staticImage(1400, 150, 'goal') // Crea una imagen de meta
+          this.goal = this.physics.add.staticImage(500, 150, 'goal') // Crea una imagen de meta
           this.goal.setScale(0.5)
           this.player = new Player(this, 0, this.scale.height)
-          this.input.keyboard.on('keydown-F', () => {
-            if (!this.scale.isFullscreen) {
-              this.scale.startFullscreen()
-            } else {
-              this.scale.stopFullscreen()
-            }
+
+          // plataformas y obstaculos       
+          this.obstacles = this.physics.add.staticGroup()
+
+          this.obstacles.create(1000, 350, 'platform').setScale(1).refreshBody()
+
+          // Detecta colisiones
+          this.physics.add.collider(this.player.sprite, this.obstacles)
+
+          const spikes = this.physics.add.staticImage(100, 400, 'spikes')
+          spikes.setScale(0.04)
+          spikes.refreshBody()
+          spikes.body.setSize(15,27)
+
+          this.physics.add.overlap(this.player.sprite, spikes, () => {
+            this.scene.restart()
           })
 
           // === Inputs HTML con DOM de Phaser ===
@@ -49,7 +61,7 @@ export default class Earth extends Phaser.Scene{
 
           // Velocidad
           this.velocityInput = this.add.dom(this.scale.width / 2, 150).createFromHTML(`
-            <input type="number" name="velocity" value="450" placeholder="Velocity"
+            <input type="number" name="velocity" value="10" placeholder="Velocity"
                    style="width: 80px; padding: 4px; font-size: 16px;">
           `)
 
