@@ -1,4 +1,4 @@
-import Player from '.modules/Player'
+import Player from '..modules/Player'
 import Phaser from 'phaser'
 
 // Mocks
