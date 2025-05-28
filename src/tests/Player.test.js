@@ -25,16 +25,16 @@ describe('Player class', () => {
       },
     };
 
-    player = new Player(mockScene, 0, 0, 50, 45); // velocity=50, angle=45°
+    player = new Player(mockScene, 0, 0); // velocity=50, angle=45°
   });
 
   test('fire() should set velocity based on angle and velocity', () => {
-    player.fire();
+    player.fire(45,20);
 
     // Valores esperados
     const rad = 45 / 360 * 2 * Math.PI;
-    const expectedVx = 50 * Math.cos(rad);
-    const expectedVy = -50 * Math.sin(rad);
+    const expectedVx = 20 * Math.cos(rad);
+    const expectedVy = -20 * Math.sin(rad);
 
     expect(mockSprite.setVelocity).toHaveBeenCalledWith(expectedVx, expectedVy);
   });
