@@ -4,16 +4,16 @@ import Phaser from 'phaser'
 export default class Earth extends Phaser.Scene{
   constructor(){
     super({
-      key:"earth",
+      key:"Earth",
       physics: {
         arcade: {
           debug: false,
-          gravity: {y: 400}
         }
       }
     });
   }
   PIXELS_PER_METER = 40;
+  gravity = 9.8
   player;
         preload() {
           this.load.image('sky', require('@/assets/background.png'));
@@ -24,6 +24,8 @@ export default class Earth extends Phaser.Scene{
         }
 
         create() {
+          this.gravity = 9.8
+          this.physics.world.gravity.y = (this.gravity * this.PIXELS_PER_METER);
           this.physics.world.setBounds(0, 0, this.scale.width, this.scale.height);
           this.cameras.main.setBounds(0, 0, this.scale.width, this.scale.height);
           this.add.image(0, 0, 'sky')
@@ -50,6 +52,27 @@ export default class Earth extends Phaser.Scene{
           this.physics.add.overlap(this.player.sprite, spikes, () => {
             this.scene.restart()
           })
+
+          const graphics = this.add.graphics()
+          graphics.lineStyle(2, 0xffffff)  // línea blanca
+
+          // Dibuja la línea horizontal (regla)
+          graphics.beginPath()
+          graphics.moveTo(0, 650)
+          graphics.lineTo(1504, 650)
+          graphics.strokePath()
+
+          // Dibuja las marcas cada 40 píxeles
+          for (let x = 0; x <= 1504; x += 40) {
+            graphics.moveTo(x, 650)
+            graphics.lineTo(x, 640)
+            graphics.strokePath()
+
+            this.add.text(x, 655, `${x/this.PIXELS_PER_METER}`, {
+              fontSize: '12px',
+              color: '#ffffff'
+            }).setOrigin(0.5, 0)  // centrar texto sobre la marca
+          }
 
           // === Inputs HTML con DOM de Phaser ===
 
