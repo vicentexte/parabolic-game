@@ -1,0 +1,74 @@
+<style>
+#ui-container:hover {
+    opacity: 1;
+}
+
+#ui-container {
+    background-image: url('{{madera}}');
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 250px;
+    height: 300px;
+    background-color: #f5f0e6;
+    padding: 20px;
+    border-radius: 12px;
+    box-sizing: border-box;
+    opacity: 0.3;
+}
+
+.label-img {
+    display: block;
+    width: 100%;
+    object-fit: contain;
+    margin-bottom: 8px;
+    margin-top: 5px;
+}
+
+.label-angulo {
+    height: 48px;
+}
+
+.label-velocidad {
+    height: 15px;
+}
+
+input {
+    width: 100%;
+    height: 30px; /* Más corto */
+    padding: 5px 10px;
+    margin-bottom: 12px;
+    font-size: 25px;
+    border: 1px solid black;
+    background-color: transparent;
+    color: rgb(233, 160, 43);
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+button {
+    width: 100%;
+    height: 60px;
+    border: none;
+    background-image: url('{{botonFuego}}');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+    cursor: pointer;
+    transition: filter 0.2s ease;
+}
+
+button:hover {
+    filter: brightness(1.2);
+}
+
+</style>
+
+<div id="ui-container">
+<img class="label-img label-angulo" src="{{labelAngulo}}" alt="Ángulo">
+<input type="number" name="angle" placeholder="Ángulo(°)">
+<img class="label-img label-img" src="{{labelVelocidad}}" alt="Velocidad">
+<input type="number" name="velocity" placeholder="Velocidad(m/s)">
+<button></button>
+</div>

@@ -27,20 +27,20 @@ export default class Earth extends Phaser.Scene{
           this.load.image('rama', require('@/assets/rama1.png'))
           this.load.image('cactus', require('@/assets/cactus.png'))
           this.load.image('liana', require('@/assets/liana.png'))
+          this.load.audio('music', require('@/assets/music.mp3'))
         }
 
         create() {
-
-          
-          
+          this.music = this.sound.add('music',{loop: true, volume: 0.2})
+          this.music.play()
           this.gravity = 9.8
           this.physics.world.gravity.y = (this.gravity * this.PIXELS_PER_METER);
-          this.physics.world.setBounds(0, 0, this.scale.width, this.scale.height-80);
+          this.physics.world.setBounds(0, 0, this.scale.width, this.scale.height - 80);
           this.add.image(0, 0, 'sky')
             .setOrigin(0)
             .setDisplaySize(3000, this.scale.height)
             .setScrollFactor(1);
-          
+
           this.player = new Player(this, 0, this.scale.height)
 
           //meta final
@@ -102,13 +102,13 @@ export default class Earth extends Phaser.Scene{
             (this.wood3.displayHeight *0.06) 
           )
           
-
           this.cactus = this.physics.add.staticImage(900, 570, 'cactus')
           .setScale(0.25)
           .refreshBody()
           .setSize(100,120)
           this.physics.add.overlap(this.player.sprite, this.cactus, () => {
             this.scene.restart()
+            this.music.destroy()
           })
            this.cactus2 = this.physics.add.staticImage(800, 550, 'cactus')
           .setScale(0.3)
@@ -116,6 +116,7 @@ export default class Earth extends Phaser.Scene{
           .setSize(100,150)
           this.physics.add.overlap(this.player.sprite, this.cactus2, () => {
             this.scene.restart()
+            this.music.destroy()
           })
           const liana = this.physics.add.staticImage(900, 95, 'liana')
           liana.setScale(0.2)
@@ -181,30 +182,33 @@ export default class Earth extends Phaser.Scene{
             handleLevelEnd();
           });
 
+          this.physics.add.overlap(this.player.sprite, this.goal, () => {
+            this.scene.start('Space')
+            this.music.destroy()
+          })
 
-
-          const graphics = this.add.graphics()
-          graphics.lineStyle(2, 0xffffff)  // línea blanca
+          this.graphics = this.add.graphics()
+          this.graphics.lineStyle(2, 0xffffff)  // línea blanca
 
           // Dibuja la línea horizontal (regla)
-          graphics.beginPath()
-          graphics.moveTo(0, 650)
-          graphics.lineTo(1504, 650)
-          graphics.strokePath()
+          this.graphics.beginPath()
+          this.graphics.moveTo(0, 650)
+          this.graphics.lineTo(1504, 650)
+          this.graphics.strokePath()
 
           // Dibuja las marcas cada 40 píxeles
           for (let x = 0; x <= 1504; x += 40) {
-            graphics.moveTo(x, 650)
-            graphics.lineTo(x, 640)
-            graphics.strokePath()
-          
+            this.graphics.moveTo(x, 650)
+            this.graphics.lineTo(x, 640)
+            this.graphics.strokePath()
+
             this.add.text(x, 655, `${x/this.PIXELS_PER_METER}`, {
               fontSize: '12px',
               color: '#ffffff'
             }).setOrigin(0.5, 0)  // centrar texto sobre la marca
           }
            const graphics2 = this.add.graphics();
-            graphics2.lineStyle(2, 0xffffff);  // línea blanca
+            graphics2.lineStyle(2, 0x000000);  // línea blanca
 
             const offsetX = 1260;  // Mueve la regla horizontalmente (izquierda/derecha)
             const offsetY = -10;   // Mueve la regla verticalmente (arriba/abajo)
@@ -228,41 +232,9 @@ export default class Earth extends Phaser.Scene{
 
               this.add.text(offsetX + 5, y, `${valorEnMetros}`, {
                 fontSize: '12px',
-                color: '#ffffff'
+                color: '#000000'
               }).setOrigin(0, 0.5);
             }
-
-
-
-          // === Inputs HTML con DOM de Phaser ===
-
-          // Ángulo
-          this.angleInput = this.add.dom(this.scale.width / 2, 100).createFromHTML(`
-            <input type="number" name="angle" value="45" placeholder="Angle"
-                   style="width: 80px; padding: 4px; font-size: 16px;">
-          `)
-
-          // Velocidad
-          this.velocityInput = this.add.dom(this.scale.width / 2, 150).createFromHTML(`
-            <input type="number" name="velocity" value="10" placeholder="Velocity"
-                   style="width: 80px; padding: 4px; font-size: 16px;">
-          `)
-
-          // Boton fire
-          this.fireButton = this.add.dom(this.scale.width / 2, 200).createFromHTML(`
-            <button style="padding: 6px 12px; font-size: 16px;">FIRE!</button>
-          `)
-
-          this.fireButton.addListener('click')
-          this.fireButton.on('click', () => {
-            const angleVal = parseFloat(this.angleInput.getChildByName('angle').value)
-            const velocityVal = parseFloat(this.velocityInput.getChildByName('velocity').value)
-            this.player.fire(angleVal,velocityVal)
-          })
-
-          this.angleInput.setOrigin(7, -0.01)
-          this.velocityInput.setOrigin(7, -0.01)
-          this.fireButton.setOrigin(9.3, -0.01)
         }
 
         update() {

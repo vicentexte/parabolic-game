@@ -26,9 +26,11 @@
     "eslint": "^8.0.0",
     "eslint-plugin-jest": "^28.11.0",
     "eslint-plugin-vue": "^9.33.0",
+    "html-loader": "^5.1.0",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
-    "vue-eslint-parser": "^9.4.3"
+    "vue-eslint-parser": "^9.4.3",
+    "vue-html-loader": "^1.2.4"
   },
   "eslintConfig": {
     "root": true,

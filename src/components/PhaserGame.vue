@@ -6,6 +6,9 @@
 import Phaser from 'phaser'
 import Earth from '@/scenes/earth'
 import Menu from '@/scenes/menu'
+import Space from '@/scenes/space'
+import Interface from '@/scenes/interface'
+import Inputs from '@/scenes/inputs'
 export default {
   name: 'PhaserGame',
   data() {
@@ -23,7 +26,7 @@ export default {
         width: 1280,
         height: 720
       },
-      scene: [Menu,Earth],
+      scene: [Menu,Earth,Space,Interface,Inputs],
       dom: {
         createContainer: true
         }

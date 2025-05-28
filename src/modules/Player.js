@@ -27,7 +27,6 @@ export default class Player {
   }
 
  update() {
-  console.log(this.sprite.body.velocity.y)
     if (this.canFire == false){
       if (Math.abs(this.sprite.body.velocity.x) < 0.5 && Math.abs(this.sprite.body.velocity.y) < 2){
         this.canFire = true

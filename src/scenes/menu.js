@@ -26,6 +26,7 @@ export default class Menu extends Phaser.Scene {
 
     startButton.on('pointerdown', () => {
       this.scene.start('Earth')
+      this.scene.start('Interface')
     })
   }
 }
