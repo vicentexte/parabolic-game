@@ -6,6 +6,7 @@ export default class Player {
     this.sprite.setCollideWorldBounds(true) 
     this.sprite.setBounce(0.3)
     this.canFire = false
+    this.jumpCount = 0;
   }
 
   fire(angle, velocity) {
@@ -21,6 +22,7 @@ export default class Player {
       const velocityY_px = -velocityY_mps * PIXELS_PER_METER // Negativo porque hacia arriba
       this.canFire = false
       this.sprite.setVelocity(velocityX_px, velocityY_px)
+      this.jumpCount++;
     }
   }
 
