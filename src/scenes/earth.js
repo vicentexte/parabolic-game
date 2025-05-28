@@ -109,7 +109,7 @@ export default class Earth extends Phaser.Scene{
           liana.refreshBody()
           liana.setSize(30,400)
           liana.setOffset(
-            (liana.displayWidth-95)
+            (liana.displayWidth-95),
             (liana.displayHeight-400) 
           )
           this.physics.add.overlap(this.player.sprite, liana, () => {
