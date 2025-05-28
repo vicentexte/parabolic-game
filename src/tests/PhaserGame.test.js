@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import PhaserGame from '@/components/PhaserGame.vue'
-import Phaser from 'phaser'
+
 
 // Mock de Phaser.Game
 jest.mock('phaser', () => {
