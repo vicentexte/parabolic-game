@@ -26,7 +26,11 @@ export default class Player {
     }
   }
 
- update() {
+  destroy(){
+    this.sprite.destroy()
+  }
+
+  update() {
     if (this.canFire == false){
       if (Math.abs(this.sprite.body.velocity.x) < 0.5 && Math.abs(this.sprite.body.velocity.y) < 2){
         this.canFire = true
@@ -36,5 +40,5 @@ export default class Player {
     if (this.sprite.body.blocked.down) {
         this.sprite.setVelocityX(this.sprite.body.velocity.x * 0.95); // menor a 1 = desacelera
     }
-    }
+  }
 }

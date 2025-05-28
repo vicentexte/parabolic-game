@@ -27,18 +27,14 @@ export default class Earth extends Phaser.Scene{
           this.load.image('rama', require('@/assets/rama1.png'))
           this.load.image('cactus', require('@/assets/cactus.png'))
           this.load.image('liana', require('@/assets/liana.png'))
-          this.load.audio('music', require('@/assets/music.mp3'))
         }
 
         create() {
-          this.music = this.sound.add('music',{loop: true, volume: 0.2})
-          this.music.play()
-          this.gravity = 9.8
           this.physics.world.gravity.y = (this.gravity * this.PIXELS_PER_METER);
           this.physics.world.setBounds(0, 0, this.scale.width, this.scale.height - 80);
           this.add.image(0, 0, 'sky')
             .setOrigin(0)
-            .setDisplaySize(3000, this.scale.height)
+            .setDisplaySize(this.scale.width, this.scale.height)
             .setScrollFactor(1);
 
           this.player = new Player(this, 0, this.scale.height)
@@ -55,14 +51,6 @@ export default class Earth extends Phaser.Scene{
             (this.goal.displayWidth - this.goal.body.width) ,
             (this.goal.displayHeight - this.goal.body.height+19) 
           )
-
-          // plataformas y obstaculos       
-          //this.obstacles = this.physics.add.staticGroup()
-
-          //this.obstacles.create(1000, 350, 'platform').setScale(1).refreshBody()
-
-          // Detecta colisiones
-          //this.physics.add.collider(this.player.sprite, this.obstacles)
           
           this.wood1 = this.physics.add.staticImage(500, 510, 'wood').setScale(0.2).refreshBody() 
           this.physics.add.collider(this.player.sprite, this.wood1)
@@ -108,7 +96,6 @@ export default class Earth extends Phaser.Scene{
           .setSize(100,120)
           this.physics.add.overlap(this.player.sprite, this.cactus, () => {
             this.scene.restart()
-            this.music.destroy()
           })
            this.cactus2 = this.physics.add.staticImage(800, 550, 'cactus')
           .setScale(0.3)
@@ -116,7 +103,6 @@ export default class Earth extends Phaser.Scene{
           .setSize(100,150)
           this.physics.add.overlap(this.player.sprite, this.cactus2, () => {
             this.scene.restart()
-            this.music.destroy()
           })
           const liana = this.physics.add.staticImage(900, 95, 'liana')
           liana.setScale(0.2)
@@ -131,110 +117,18 @@ export default class Earth extends Phaser.Scene{
               this.player.sprite.setVelocityY(this.player.sprite.body.velocity.y /3);
           })
           
-
-          //sistema de monedas
-          const collectCoin = (player, coin) => {
-            coin.disableBody(true, true);
-            this.coinsCollected++;
-            this.coinText.setText('x ' + this.coinsCollected);
-          };
-
-
           this.coin = this.physics.add.staticImage(510, 145,'coin').setScale(0.03).refreshBody()
-          this.physics.add.overlap(this.player.sprite, this.coin, collectCoin, null, this)
+          this.physics.add.overlap(this.player.sprite, this.coin, this.scene.get('Interface').collectCoin, null, this.scene.get('Interface'))
           this.coin2 = this.physics.add.staticImage(770, 250,'coin').setScale(0.03).refreshBody()
-          this.physics.add.overlap(this.player.sprite, this.coin2, collectCoin, null, this)
+          this.physics.add.overlap(this.player.sprite, this.coin2, this.scene.get('Interface').collectCoin, null, this.scene.get('Interface'))
           
-          this.coinsCollected = 0;
-          this.coinIcon = this.add.image(35, 35, 'coin')
-            .setScale(0.05)
-            .setScrollFactor(0);
-
-          this.coinText = this.add.text(68, 25, 'x 0', {
-            fontSize: '20px',
-            color: '#ffffff',
-            fontFamily: 'Arial'
-          }).setScrollFactor(0);
-
-          //sistema de estrellas
-          const handleLevelEnd = () => {
-            const jumps = this.player.jumpCount;
-            let stars = 0;
-
-            if (jumps === 1) {
-              stars = 3;
-            } else if (jumps === 2) {
-              stars = 2;
-            } else {
-              stars = 0;
-            }
-
-            const starText = stars === 0 ? '❌ No stars' : '⭐'.repeat(stars);
-            this.add.text(this.scale.width / 2, this.scale.height / 2, starText, {
-              fontSize: '40px',
-              color: '#fff',
-              fontFamily: 'Arial',
-              backgroundColor: '#000'
-            }).setOrigin(0.5).setScrollFactor(0);
-          };
-
           this.physics.add.overlap(this.player.sprite, this.goal, () => {
-            handleLevelEnd();
+            this.scene.manager.getScene('Interface').handleLevelEnd();
+            this.time.delayedCall(5000,() => {
+              this.scene.get('Interface').destroyText()
+              this.scene.start('Space')
+            })
           });
-
-          this.physics.add.overlap(this.player.sprite, this.goal, () => {
-            this.scene.start('Space')
-            this.music.destroy()
-          })
-
-          this.graphics = this.add.graphics()
-          this.graphics.lineStyle(2, 0xffffff)  // línea blanca
-
-          // Dibuja la línea horizontal (regla)
-          this.graphics.beginPath()
-          this.graphics.moveTo(0, 650)
-          this.graphics.lineTo(1504, 650)
-          this.graphics.strokePath()
-
-          // Dibuja las marcas cada 40 píxeles
-          for (let x = 0; x <= 1504; x += 40) {
-            this.graphics.moveTo(x, 650)
-            this.graphics.lineTo(x, 640)
-            this.graphics.strokePath()
-
-            this.add.text(x, 655, `${x/this.PIXELS_PER_METER}`, {
-              fontSize: '12px',
-              color: '#ffffff'
-            }).setOrigin(0.5, 0)  // centrar texto sobre la marca
-          }
-           const graphics2 = this.add.graphics();
-            graphics2.lineStyle(2, 0x000000);  // línea blanca
-
-            const offsetX = 1260;  // Mueve la regla horizontalmente (izquierda/derecha)
-            const offsetY = -10;   // Mueve la regla verticalmente (arriba/abajo)
-            const alturaRegla = 650; // Alto total de la regla
-
-            // Dibuja la línea vertical (regla)
-            graphics2.beginPath();
-            graphics2.moveTo(offsetX, offsetY);
-            graphics2.lineTo(offsetX, offsetY + alturaRegla);
-            graphics2.strokePath();
-
-            // Dibuja marcas y números desde abajo hacia arriba
-            for (let i = 0; i <= alturaRegla; i += 40) {
-              const y = offsetY + alturaRegla - i;
-
-              graphics2.moveTo(offsetX, y);
-              graphics2.lineTo(offsetX - 10, y); // Marca hacia la izquierda
-              graphics2.strokePath();
-
-              const valorEnMetros = i / this.PIXELS_PER_METER;
-
-              this.add.text(offsetX + 5, y, `${valorEnMetros}`, {
-                fontSize: '12px',
-                color: '#000000'
-              }).setOrigin(0, 0.5);
-            }
         }
 
         update() {
