@@ -8,7 +8,7 @@ export default class Space extends Phaser.Scene{
       key:"Space",
       physics: {
         arcade: {
-          debug: true,
+          debug: false,
         }
       }
     });
@@ -65,15 +65,23 @@ export default class Space extends Phaser.Scene{
           this.physics.add.overlap(this.player.sprite, this.coin2, this.scene.get('Interface').collectCoin, null, this.scene.get('Interface'))
 
           this.physics.add.overlap(this.player.sprite, asteroids, () => {
-            this.scene.manager.getScene('Interface').handleLevelEnd();
-            this.time.delayedCall(5000,() => {
-              this.scene.get('Interface').destroyText()
-              this.scene.start('Menu')
-            })
+            this.scene.restart()
           },null,this)
 
           this.physics.add.overlap(this.player.sprite, this.goal, () => {
+            this.player.sprite.setVelocity(0,0)
+            this.player.sprite.body.setAllowGravity(false)
+            asteroids.children.iterate((element) => {
+              element.body.setSize(
+              element.displayWidth * 0.1, // ancho más pequeño (20% del ancho visible)
+              element.displayHeight * 0.1, // alto más pequeño (40% del alto visible)
+              false)
+            })
+            this.scene.manager.getScene('Interface').handleLevelEnd();
+            this.time.delayedCall(5000,() => {
+            this.scene.get('Interface').destroyText()
             this.scene.start('Menu')
+            })
           })
         }
 

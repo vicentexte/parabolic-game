@@ -6,7 +6,7 @@ export default class Menu extends Phaser.Scene {
       key:"Menu",
       physics: {
         arcade: {
-          debug: true,
+          debug: false,
         }
       }
     });

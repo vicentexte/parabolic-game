@@ -69,7 +69,7 @@ export default class Interface extends Phaser.Scene{
             this.actualScene.scene.resume(); this.music.resume()
         }
     })
-    this.restart.on('pointerdown', () => {this.actualScene.scene.restart()})
+    this.restart.on('pointerdown', () => {this.actualScene.scene.restart(); this.scene.restart()})
     this.actualScene.graphics = this.add.graphics()
     this.actualScene.graphics.lineStyle(2, 0xffffff)  // línea blanca
     
@@ -97,7 +97,6 @@ export default class Interface extends Phaser.Scene{
       graphics2.lineStyle(2, 0xFFFFFF);
     }
     
-
     const offsetX = 1260;  // Mueve la regla horizontalmente (izquierda/derecha)
     const offsetY = -10;   // Mueve la regla verticalmente (arriba/abajo)
     const alturaRegla = 650; // Alto total de la regla

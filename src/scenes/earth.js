@@ -7,7 +7,7 @@ export default class Earth extends Phaser.Scene{
       key:"Earth",
       physics: {
         arcade: {
-          debug: true,
+          debug: false,
         }
       }
     });
