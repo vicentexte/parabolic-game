@@ -2,6 +2,7 @@
   "name": "parabolic-game",
   "version": "0.1.0",
   "private": true,
+  "homePage": "vicentexte.github.io/parabolic-game",
   "scripts": {
     "test": "jest",
     "serve": "vue-cli-service serve",
@@ -76,7 +77,6 @@
       "js",
       "vue"
     ],
-    "homePage": "vicentexte.github.io/parabolic-game",
     "transform": {
       "^.+\\.js$": "babel-jest",
       "^.+\\.(vue)$": "@vue/vue3-jest"
