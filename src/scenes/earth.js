@@ -124,8 +124,7 @@ export default class Earth extends Phaser.Scene{
           
           this.physics.add.overlap(this.player.sprite, this.goal, () => {
             this.scene.manager.getScene('Interface').handleLevelEnd();
-            this.time.delayedCall(5000,() => {
-              this.scene.get('Interface').destroyText()
+            this.time.delayedCall(2500,() => {  
               this.scene.start('Space')
             })
           });

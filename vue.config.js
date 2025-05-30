@@ -8,5 +8,6 @@ module.exports = defineConfig({
       .use('html-loader')
       .loader('html-loader')
       .end();
-  }
+  },
+  publicPath: '/parabolic-game'
 })

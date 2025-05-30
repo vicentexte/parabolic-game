@@ -73,13 +73,12 @@ export default class Space extends Phaser.Scene{
             this.player.sprite.body.setAllowGravity(false)
             asteroids.children.iterate((element) => {
               element.body.setSize(
-              element.displayWidth * 0.1, // ancho más pequeño (20% del ancho visible)
-              element.displayHeight * 0.1, // alto más pequeño (40% del alto visible)
+              element.displayWidth * 0.1,
+              element.displayHeight * 0.1,
               false)
             })
             this.scene.manager.getScene('Interface').handleLevelEnd();
-            this.time.delayedCall(5000,() => {
-            this.scene.get('Interface').destroyText()
+            this.time.delayedCall(2500,() => {
             this.scene.start('Menu')
             })
           })

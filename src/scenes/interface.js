@@ -5,10 +5,8 @@ export default class Interface extends Phaser.Scene{
       key:"Interface"
       });
   }
-  actualScene;
   coinsCollected;
   coinText;
-  finalText;
   
   preload(){
     this.load.image('menu', require('@/assets/menu.png'));
@@ -55,7 +53,6 @@ export default class Interface extends Phaser.Scene{
 
     this.menu.on('pointerdown', () => {
         this.actualScene.scene.start('Menu'); 
-        this.music.destroy();
     })
     this.pause.on('pointerdown', () => {
         if (!this.actualScene.scene.isPaused()){
@@ -170,15 +167,19 @@ export default class Interface extends Phaser.Scene{
     }
 
     const starText = stars === 0 ? '❌ No stars' : '⭐'.repeat(stars);
-    this.finalText = this.add.text(this.actualScene.scale.width / 2, this.actualScene.scale.height / 2, starText, {
+    const finalText = this.add.text(this.actualScene.scale.width / 2, this.actualScene.scale.height / 2, starText, {
       fontSize: '40px',
       color: '#fff',
       fontFamily: 'Arial',
       backgroundColor: '#000'
-    }).setOrigin(0.5).setScrollFactor(0);
+    }).setOrigin(0.5)
+    this.time.delayedCall(2000,() => {
+
+      finalText.destroy()
+    })
   }
   destroyText(){
-    this.scene.restart()
+    //this.scene.restart()
   }
   update(){
     this.time.delayedCall(100, () => {
@@ -193,6 +194,7 @@ export default class Interface extends Phaser.Scene{
     
     if (this.scene.isActive('Menu')){
         this.scene.stop()
+        this.music.destroy()
     }
   }
 }
