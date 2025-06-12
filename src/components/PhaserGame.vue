@@ -9,6 +9,7 @@ import Menu from '@/scenes/menu'
 import Space from '@/scenes/space'
 import Interface from '@/scenes/interface'
 import Inputs from '@/scenes/inputs'
+
 export default {
   name: 'PhaserGame',
   data() {
@@ -26,6 +27,16 @@ export default {
         width: 1280,
         height: 720
       },
+      /* 
+      Scenes are the different parts of your game.
+      You can think of them as different levels or states.
+      Each scene can have its own logic, assets, and behavior.
+      The order of scenes matters, as they will be executed in the order they are listed.
+
+      Menu: The main menu of the game.
+      Interface: The UI elements that will be displayed on top of the game.
+      Inputs: Handles user input and controls.
+      */
       scene: [Menu,Earth,Space,Interface,Inputs],
       dom: {
         createContainer: true

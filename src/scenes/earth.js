@@ -1,5 +1,18 @@
-import Player from '../modules/Player.js'
 import Phaser from 'phaser'
+
+// Instances
+import Player from '../modules/Player.js'
+
+//Assets
+import background from '@/assets/Sprites/Backgrounds/earth_bg.webp'
+import goal from '@/assets/Sprites/Instances/General/goal.webp'
+import coin from '@/assets/Sprites/Instances/General/coin.webp'
+import trunk from '@/assets/Sprites/Instances/Earth/trunk.webp'
+import trunkHalfTop from '@/assets/Sprites/Instances/Earth/trunk_half_top.webp'
+import trunkHalfBottom from '@/assets/Sprites/Instances/Earth/trunk_half_bottom.webp'
+import branch from '@/assets/Sprites/Instances/Earth/branch.webp'
+import cactus from '@/assets/Sprites/Instances/Earth/cactus.webp'
+import vine from '@/assets/Sprites/Instances/Earth/vine.webp'
 
 export default class Earth extends Phaser.Scene{
   constructor(){
@@ -12,122 +25,148 @@ export default class Earth extends Phaser.Scene{
       }
     });
   }
+  // Constants for gravity physics
   PIXELS_PER_METER = 40;
   gravity = 9.8
-  player;
         preload() {
-          this.load.image('sky', require('@/assets/background.png'));
+          this.load.image('earth_bg', background);
           this.load.image('player', 'https://labs.phaser.io/assets/sprites/phaser-dude.png');
-          this.load.image('goal', require('@/assets/goal.png')) ;
-          this.load.image('spikes', require('@/assets/spikes.png'))
-          this.load.image('coin', require('@/assets/coin.png'))
-          this.load.image('wood', require('@/assets/tronco.webp'))
-          this.load.image('woodmitad1', require('@/assets/troncomitad1.png'))
-          this.load.image('woodmitad2', require('@/assets/troncomitad2.png'))
-          this.load.image('rama', require('@/assets/rama1.png'))
-          this.load.image('cactus', require('@/assets/cactus.png'))
-          this.load.image('liana', require('@/assets/liana.png'))
+          this.load.image('goal', goal) ;
+          this.load.image('coin', coin)
+          this.load.image('trunk', trunk)
+          this.load.image('trunkHalfTop', trunkHalfTop)
+          this.load.image('trunkHalfBottom', trunkHalfBottom)
+          this.load.image('branch', branch)
+          this.load.image('cactus', cactus)
+          this.load.image('vine', vine)
         }
 
         create() {
+          // Set up the physics world with gravity and bounds
           this.physics.world.gravity.y = (this.gravity * this.PIXELS_PER_METER);
           this.physics.world.setBounds(0, 0, this.scale.width, this.scale.height - 80);
-          this.add.image(0, 0, 'sky')
+
+          // Create the background
+          this.add.image(0, 0, 'earth_bg')
             .setOrigin(0)
             .setDisplaySize(this.scale.width, this.scale.height)
             .setScrollFactor(1);
 
+          // Create the player
           this.player = new Player(this, 0, this.scale.height)
 
-          //meta final
-          this.goal = this.physics.add.staticImage(1245, 590, 'goal') // Crea una imagen de meta
-          this.goal.setScale(0.5)
-          this.goal.body.setSize(
-            this.goal.displayWidth * 0.2, 
-            this.goal.displayHeight * 0.65, 
+          // Create the goal, set up its size and offset
+          const goal = this.physics.add.staticImage(1245, 590, 'goal') // Crea una imagen de meta
+          goal.setScale(0.5)
+          goal.body.setSize(
+            goal.displayWidth * 0.2, 
+            goal.displayHeight * 0.65, 
             false
           )
-          this.goal.body.setOffset(
-            (this.goal.displayWidth - this.goal.body.width) ,
-            (this.goal.displayHeight - this.goal.body.height+19) 
-          )
-          
-          this.wood1 = this.physics.add.staticImage(500, 510, 'wood').setScale(0.2).refreshBody() 
-          this.physics.add.collider(this.player.sprite, this.wood1)
-          this.wood1.body.setSize(
-            this.wood1.displayWidth * 0.38, 
-            this.wood1.displayHeight * 0.95, 
-            false
-          )
-          this.wood1.body.setOffset(
-            (this.wood1.displayWidth *0.35) ,
-            (this.wood1.displayHeight *0.009) 
+          goal.body.setOffset(
+            (goal.displayWidth - goal.body.width) ,
+            (goal.displayHeight - goal.body.height+19) 
           )
 
-          this.wood2 = this.physics.add.staticImage(510, 50, 'woodmitad1').setScale(0.2).refreshBody() 
-          this.physics.add.collider(this.player.sprite, this.wood2)
-          this.wood2.angle = 180;
-          this.wood2.body.setSize(
-            this.wood2.displayWidth * 0.4, 
-            this.wood2.displayHeight * 0.95, 
-            false
-          )
-          this.wood2.body.setOffset(
-            (this.wood2.displayWidth *0.3) ,
-            (this.wood2.displayHeight *0.06) 
-          )
-
-          this.wood3 = this.physics.add.staticImage(510, 230, 'woodmitad2').setScale(0.2).refreshBody() 
-          this.physics.add.collider(this.player.sprite, this.wood3)
-          this.wood3.angle = 180;
-          this.wood3.body.setSize(
-            this.wood3.displayWidth * 0.4, 
-            this.wood3.displayHeight * 0.95, 
-            false
-          )
-          this.wood3.body.setOffset(
-            (this.wood3.displayWidth *0.3) ,
-            (this.wood3.displayHeight *0.06) 
-          )
-          
-          this.cactus = this.physics.add.staticImage(900, 570, 'cactus')
-          .setScale(0.25)
-          .refreshBody()
-          .setSize(100,120)
-          this.physics.add.overlap(this.player.sprite, this.cactus, () => {
-            this.scene.restart()
-          })
-           this.cactus2 = this.physics.add.staticImage(800, 550, 'cactus')
-          .setScale(0.3)
-          .refreshBody()
-          .setSize(100,150)
-          this.physics.add.overlap(this.player.sprite, this.cactus2, () => {
-            this.scene.restart()
-          })
-          const liana = this.physics.add.staticImage(900, 95, 'liana')
-          liana.setScale(0.2)
-          liana.refreshBody()
-          liana.setSize(30,400)
-          liana.setOffset(
-            (liana.displayWidth-95),
-            (liana.displayHeight-400) 
-          )
-          this.physics.add.overlap(this.player.sprite, liana, () => {
-              this.player.sprite.setVelocityX(this.player.sprite.body.velocity.x /3);
-              this.player.sprite.setVelocityY(this.player.sprite.body.velocity.y /3);
-          })
-          
-          this.coin = this.physics.add.staticImage(510, 145,'coin').setScale(0.03).refreshBody()
-          this.physics.add.overlap(this.player.sprite, this.coin, this.scene.get('Interface').collectCoin, null, this.scene.get('Interface'))
-          this.coin2 = this.physics.add.staticImage(770, 250,'coin').setScale(0.03).refreshBody()
-          this.physics.add.overlap(this.player.sprite, this.coin2, this.scene.get('Interface').collectCoin, null, this.scene.get('Interface'))
-          
-          this.physics.add.overlap(this.player.sprite, this.goal, () => {
+          // Overlap between player and goal => ends the level
+          this.physics.add.overlap(this.player.sprite, goal, () => {
             this.scene.manager.getScene('Interface').handleLevelEnd();
             this.time.delayedCall(2500,() => {  
               this.scene.start('Space')
             })
           });
+          
+          // Create trunks
+          const trunkGroup = this.physics.add.staticGroup();
+
+          //trunk1
+          const trunk1 = this.physics.add.staticImage(500, 510, 'trunk').setScale(0.2).refreshBody() 
+          trunk1.body.setSize(
+            trunk1.displayWidth * 0.38, 
+            trunk1.displayHeight * 0.95, 
+            false
+          ).setOffset(
+            (trunk1.displayWidth *0.35) ,
+            (trunk1.displayHeight *0.009) 
+          )
+
+          //trunk2
+          const trunk2 = this.physics.add.staticImage(510, 50, 'trunkHalfBottom').setScale(0.2).refreshBody() 
+          trunk2.angle = 180
+          trunk2.body.setSize(
+            trunk2.displayWidth * 0.4, 
+            trunk2.displayHeight * 0.95, 
+            false
+          ).setOffset(
+            (trunk2.displayWidth *0.3) ,
+            (trunk2.displayHeight *0.06) 
+          )
+
+          //trunk3
+          const trunk3 = this.physics.add.staticImage(510, 230, 'trunkHalfTop').setScale(0.2).refreshBody() 
+          trunk3.angle = 180;
+          trunk3.body.setSize(
+            trunk3.displayWidth * 0.4, 
+            trunk3.displayHeight * 0.95, 
+            false
+          ).setOffset(
+            (trunk3.displayWidth *0.3) ,
+            (trunk3.displayHeight *0.06) 
+          )
+
+          //Set collider between player and trunks
+          trunkGroup.add(trunk1)
+          trunkGroup.add(trunk2)
+          trunkGroup.add(trunk3)
+          this.physics.add.collider(this.player.sprite, trunkGroup);
+          
+          //Create Cactus
+          const cactusGroup = this.physics.add.staticGroup();
+
+          //Cactus1
+          const cactus1 = this.physics.add.staticImage(900, 570, 'cactus')
+          .setScale(0.25)
+          .refreshBody()
+          .setSize(100,120)
+
+          //Cactus2
+          const cactus2 = this.physics.add.staticImage(800, 550, 'cactus')
+          .setScale(0.3)
+          .refreshBody()
+          .setSize(100,150)
+
+          //Overlap between player and cactus => restarts the scene
+          cactusGroup.add(cactus1)
+          cactusGroup.add(cactus2)
+          this.physics.add.overlap(this.player.sprite, cactusGroup, () => {
+            this.scene.restart()
+          })
+
+          //Create vine
+          const vine = this.physics.add.staticImage(900, 95, 'vine')
+            .setScale(0.2)
+            .refreshBody()
+            .setSize(30,400)
+          vine.setOffset(
+            (vine.displayWidth-95),
+            (vine.displayHeight-400) 
+          )
+
+          //Overlap between player and vine => slows down the player
+          this.physics.add.overlap(this.player.sprite, vine, () => {
+              this.player.sprite.setVelocityX(this.player.sprite.body.velocity.x /3);
+              this.player.sprite.setVelocityY(this.player.sprite.body.velocity.y /3);
+          })
+          
+          //Create coins
+          const coinGroup = this.physics.add.staticGroup();
+          const coin1 = this.physics.add.staticImage(510, 145,'coin').setScale(0.03).refreshBody()
+          const coin2 = this.physics.add.staticImage(770, 250,'coin').setScale(0.03).refreshBody()
+          
+          //Overlap between player and coin => collects the coin
+          coinGroup.add(coin1)
+          coinGroup.add(coin2)
+          this.physics.add.overlap(this.player.sprite, coinGroup, this.scene.get('Interface').collectCoin, null, this.scene.get('Interface'))
         }
 
         update() {

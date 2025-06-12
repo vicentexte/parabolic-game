@@ -8,6 +8,13 @@ module.exports = defineConfig({
       .use('html-loader')
       .loader('html-loader')
       .end();
+    config.module
+      .rule('audio')
+      .test(/\.(mp3|ogg|wav)$/)
+      .type('asset/resource')
+      .set('generator', {
+        filename: 'assets/sounds/[name].[hash:8][ext]'
+      });
   },
   publicPath: '/parabolic-game'
 })
