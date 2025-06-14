@@ -4,10 +4,10 @@ import Phaser from "phaser";
 import html_content from '../html/inputs.html'
 
 // Import assets
-import dom_bg from '@/assets/Sprites/Interface/dom_bg.webp'
-import angle_label from '@/assets/Sprites/Interface/angle_label.webp'
-import velocity_label from '@/assets/Sprites/Interface/velocity_label.webp'
-import fire_button from '@/assets/Sprites/Interface/fire_button.webp'
+import dom_bg from '@/assets/sprites/interface/dom_bg.webp'
+import angle_label from '@/assets/sprites/interface/angle_label.webp'
+import velocity_label from '@/assets/sprites/interface/velocity_label.webp'
+import fire_button from '@/assets/sprites/interface/fire_button.webp'
 
 export default class Inputs extends Phaser.Scene{
 

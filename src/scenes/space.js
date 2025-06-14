@@ -1,13 +1,13 @@
 import Phaser from 'phaser'
 
 // Import classes
-import Player from '../modules/Player.js'
-import Asteroid from '@/modules/Asteroid.js';
+import Player from '../modules/player.js'
+import Asteroid from '@/modules/asteroid.js';
 // Import assets
-import background from '@/assets/Sprites/Backgrounds/space_bg.webp'
-import goal from '@/assets/Sprites/Instances/General/goal.webp'
-import coin from '@/assets/Sprites/Instances/General/coin.webp'
-import asteroid from '@/assets/Sprites/Instances/Space/asteroid.webp'
+import background from '@/assets/sprites/backgrounds/space_bg.webp'
+import goal from '@/assets/sprites/instances/general/goal.webp'
+import coin from '@/assets/sprites/instances/general/coin.webp'
+import asteroid from '@/assets/sprites/instances/space/asteroid.webp'
 
 
 export default class Space extends Phaser.Scene{

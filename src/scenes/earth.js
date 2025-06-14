@@ -1,18 +1,18 @@
 import Phaser from 'phaser'
 
 // Instances
-import Player from '../modules/Player.js'
+import Player from '../modules/player.js'
 
 //Assets
-import background from '@/assets/Sprites/Backgrounds/earth_bg.webp'
-import goal from '@/assets/Sprites/Instances/General/goal.webp'
-import coin from '@/assets/Sprites/Instances/General/coin.webp'
-import trunk from '@/assets/Sprites/Instances/Earth/trunk.webp'
-import trunkHalfTop from '@/assets/Sprites/Instances/Earth/trunk_half_top.webp'
-import trunkHalfBottom from '@/assets/Sprites/Instances/Earth/trunk_half_bottom.webp'
-import branch from '@/assets/Sprites/Instances/Earth/branch.webp'
-import cactus from '@/assets/Sprites/Instances/Earth/cactus.webp'
-import vine from '@/assets/Sprites/Instances/Earth/vine.webp'
+import background from '@/assets/sprites/backgrounds/earth_bg.webp'
+import goal from '@/assets/sprites/instances/general/goal.webp'
+import coin from '@/assets/sprites/instances/general/coin.webp'
+import trunk from '@/assets/sprites/instances/earth/trunk.webp'
+import trunkHalfTop from '@/assets/sprites/instances/earth/trunk_half_top.webp'
+import trunkHalfBottom from '@/assets/sprites/instances/earth/trunk_half_bottom.webp'
+import branch from '@/assets/sprites/instances/earth/branch.webp'
+import cactus from '@/assets/sprites/instances/earth/cactus.webp'
+import vine from '@/assets/sprites/instances/earth/vine.webp'
 
 export default class Earth extends Phaser.Scene{
   constructor(){

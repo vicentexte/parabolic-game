@@ -1,0 +1,64 @@
+// Set up the horizontal and vertical rulers
+    const graphics1 = this.add.graphics()
+    graphics1.lineStyle(2, 0xffffff)
+    
+    // Draws the horizontal ruler
+    graphics1.beginPath()
+    graphics1.moveTo(0, 650)
+    graphics1.lineTo(1504, 650)
+    graphics1.strokePath()
+
+    // Draws the lines stepping every PIXEL_PER_METERS pixels
+    for (let x = 0; x <= 1504; x += 40) {
+      graphics1.moveTo(x, 650)
+      graphics1.lineTo(x, 640)
+      graphics1.strokePath()
+
+      this.add.text(x, 655, `${x/this.actualScene.PIXELS_PER_METER}`, {
+      fontSize: '12px',
+      color: '#ffffff'
+      }).setOrigin(0.5, 0)
+    }
+
+    //Draws the vertical ruler
+    const graphics2 = this.actualScene.add.graphics();
+
+    //Set the color depending on the scene
+    if (this.scene.isActive("Earth")){
+      graphics2.lineStyle(2, 0x000000);
+    } else {
+      graphics2.lineStyle(2, 0xFFFFFF);
+    }
+    
+    const offsetX = 1260
+    const offsetY = -10
+    const rulerHeight = 650
+
+    //Draws the vertical line
+    graphics2.beginPath()
+    graphics2.moveTo(offsetX, offsetY)
+    graphics2.lineTo(offsetX, offsetY + rulerHeight)
+    graphics2.strokePath()
+
+    // Draws the lines stepping every PIXEL_PER_METER pixels
+    for (let i = 0; i <= rulerHeight; i += 40) {
+      const y = offsetY + rulerHeight - i
+      graphics2.moveTo(offsetX, y)
+      graphics2.lineTo(offsetX - 10, y)
+      graphics2.strokePath()
+
+      const valorEnMetros = i / this.actualScene.PIXELS_PER_METER;
+
+      // Add text to the vertical ruler
+      if (this.scene.isActive("Earth")){
+        this.actualScene.add.text(offsetX + 5, y, `${valorEnMetros}`, {
+          fontSize: '12px',
+          color: '#000000'
+        }).setOrigin(0, 0.5)
+      } else {
+          this.actualScene.add.text(offsetX + 5, y, `${valorEnMetros}`, {
+          fontSize: '12px',
+          color: '#FFFFFF'
+        }).setOrigin(0, 0.5)
+      }
+    }
