@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 
 // Instances
 import Player from '../modules/player.js'
+import Goal from '@/modules/goal.js'
 
 //Assets
 import background from '@/assets/sprites/backgrounds/earth_bg.webp'
@@ -14,6 +15,9 @@ import branch from '@/assets/sprites/instances/earth/branch.webp'
 import cactus from '@/assets/sprites/instances/earth/cactus.webp'
 import vine from '@/assets/sprites/instances/earth/vine.webp'
 
+//SFX
+import click_sfx from '@/assets/sounds/sfx/click.ogg'
+
 export default class Earth extends Phaser.Scene{
   constructor(){
     super({
@@ -21,9 +25,10 @@ export default class Earth extends Phaser.Scene{
       physics: {
         arcade: {
           debug: false,
-        }
+        },
       }
     });
+    this.level = 1
   }
   // Constants for gravity physics
   PIXELS_PER_METER = 40;
@@ -39,6 +44,8 @@ export default class Earth extends Phaser.Scene{
           this.load.image('branch', branch)
           this.load.image('cactus', cactus)
           this.load.image('vine', vine)
+
+          this.load.audio('click_sfx',click_sfx)
         }
 
         create() {
@@ -56,24 +63,12 @@ export default class Earth extends Phaser.Scene{
           this.player = new Player(this, 0, this.scale.height)
 
           // Create the goal, set up its size and offset
-          const goal = this.physics.add.staticImage(1245, 590, 'goal') // Crea una imagen de meta
-          goal.setScale(0.5)
-          goal.body.setSize(
-            goal.displayWidth * 0.2, 
-            goal.displayHeight * 0.65, 
-            false
-          )
-          goal.body.setOffset(
-            (goal.displayWidth - goal.body.width) ,
-            (goal.displayHeight - goal.body.height+19) 
-          )
+          this.goal = new Goal(this,1245,590,'goal')
 
           // Overlap between player and goal => ends the level
-          this.physics.add.overlap(this.player.sprite, goal, () => {
+          this.physics.add.overlap(this.player.sprite, this.goal.sprite, () => {
+            this.player.sprite.disableBody()
             this.scene.manager.getScene('Interface').handleLevelEnd();
-            this.time.delayedCall(2500,() => {  
-              this.scene.start('Space')
-            })
           });
           
           // Create trunks

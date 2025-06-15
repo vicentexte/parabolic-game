@@ -4,28 +4,28 @@ export default class Goal {
         this.scene = scene;
         this.x = x;
         this.y = y;
-        this.image = scene.physics.add.sprite(x,y,texture)
+        this.sprite = scene.physics.add.sprite(x,y,texture)
         this.create()
     }
 
     create(){
-        //adjust image
-        const image = this.image
-        const body = this.image.body
-        image.setScale(0.5)
+        //adjust sprite
+        const sprite = this.sprite
+        const body = this.sprite.body
+        sprite.setScale(0.5)
         body.setSize(
-            image.displayWidth*0.2,
-            image.displayHeight*0.65,
+            sprite.displayWidth*0.2,
+            sprite.displayHeight*0.65,
             false
         ).setOffset(
-            (image.displayWidth - body.width),
-            (image.displayHeight - body.height+19)
+            (sprite.displayWidth - body.width),
+            (sprite.displayHeight - body.height+19)
         ).setAllowGravity(false)
     }
 
     invertColor(){
-        const image = this.image
-        image.setTintFill(0xFFFFFF)
+        const sprite = this.sprite
+        sprite.setTintFill(0xFFFFFF)
         return this
     }
 
@@ -36,7 +36,7 @@ export default class Goal {
 
     update(time){
         if (this.isSpace){
-            this.image.body.setVelocityY(50*Math.sin(Phaser.Math.DegToRad(time/10)))
+            this.sprite.body.setVelocityY(50*Math.sin(Phaser.Math.DegToRad(time/10)))
         }
     }
 }

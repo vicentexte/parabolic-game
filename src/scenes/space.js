@@ -8,6 +8,7 @@ import background from '@/assets/sprites/backgrounds/space_bg.webp'
 import goal from '@/assets/sprites/instances/general/goal.webp'
 import coin from '@/assets/sprites/instances/general/coin.webp'
 import asteroid from '@/assets/sprites/instances/space/asteroid.webp'
+import Goal from '@/modules/goal.js';
 
 
 export default class Space extends Phaser.Scene{
@@ -20,6 +21,7 @@ export default class Space extends Phaser.Scene{
         }
       }
     });
+    this.level = 2;
   }
   // Constants for gravity physics
   PIXELS_PER_METER = 40;
@@ -46,31 +48,13 @@ export default class Space extends Phaser.Scene{
           // Create the player
           this.player = new Player(this, 0, this.scale.height)
 
-          //Create the goal, set up its size and offset
-          this.goal = this.physics.add.sprite(this.scale.width-400, 150, 'goal').setScale(0.5).setTintFill(0xFFFFFF)
-          this.goal.body.setSize(
-            this.goal.displayWidth * 0.2, // ancho más pequeño (20% del ancho visible)
-            this.goal.displayHeight * 0.65, // alto más pequeño (40% del alto visible)
-          false
-          ).setAllowGravity(false).setOffset(
-            (this.goal.displayWidth - this.goal.body.width) ,
-            (this.goal.displayHeight - this.goal.body.height + 19) 
-          )
+          //Create the goal
+          this.goal = new Goal(this,this.scale.width-400,150,'goal').invertColor().spaceEvent()
 
           // Add overlap between player and goal
-          this.physics.add.overlap(this.player.sprite, this.goal, () => {
-            this.player.sprite.setVelocity(0,0)
-            this.player.sprite.body.setAllowGravity(false)
-            asteroidsGroup.children.iterate((element) => {
-              element.body.setSize(
-              element.displayWidth * 0.1,
-              element.displayHeight * 0.1,
-              false)
-            })
+          this.physics.add.overlap(this.player.sprite, this.goal.sprite, () => {
+            this.player.sprite.disableBody()
             this.scene.manager.getScene('Interface').handleLevelEnd();
-            this.time.delayedCall(2500,() => {
-            this.scene.start('Menu')
-            })
           })
 
           //Create the asteroidsGroup
@@ -101,7 +85,6 @@ export default class Space extends Phaser.Scene{
           this.player.update()
           this.asteroid1.update()
           this.asteroid2.update()
-          
-          this.goal.body.setVelocityY(50*Math.sin(Phaser.Math.DegToRad(time/10)))
+          this.goal.update(time)
         }
 }

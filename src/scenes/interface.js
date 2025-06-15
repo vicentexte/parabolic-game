@@ -24,14 +24,19 @@ export default class Interface extends Phaser.Scene{
     this.load.image('menu_button', menu_button)
     this.load.image('pause_button', pause_button) 
     this.load.image('restart_button', restart_button)
+
     this.load.audio('earth_music', earth_music)
     this.load.audio('space_music', space_music)
   }
 
   create(){
+    //Set the playable scenes
+    this.levelScenes=['Earth','Space']
+
     // Set up the music ***Agregar diferentes tipos de música para cada escena***
     this.actualScene = this.scene.manager.getScenes()[0]
     this.music_foreach = ['earth_music','space_music']
+    this.actual_music = this.music_foreach[this.actualScene.level-1]
 
     this.sound.get(this.actual_music)==null? 
     this.music = this.sound.add(this.actual_music,{loop: true, volume: 0.2}):
@@ -72,7 +77,7 @@ export default class Interface extends Phaser.Scene{
     this.coinText.setText('x' + this.coinsCollected)
   }
 
-  //Function to handle the end of the level
+  //Function to handle the end of the level, Count the amount of stars and show there, the handle the music and level transition
   handleLevelEnd(){
     const jumps = this.actualScene.player.jumpCount;
     let stars = 0;
@@ -92,10 +97,25 @@ export default class Interface extends Phaser.Scene{
       fontFamily: 'Arial',
       backgroundColor: '#000'
     }).setOrigin(0.5)
-    this.time.delayedCall(2000,() => {
 
+    //Level and music transition
+    this.time.delayedCall(2000,() => {
       finalText.destroy()
+      this.music.stop()
+
+      if (this.levelScenes[this.actualScene.level] != undefined){
+        this.actualScene.scene.start(this.levelScenes[this.actualScene.level])
+        this.actual_music = this.music_foreach[this.actualScene.level] //here is not -1 because we need the next song
+        this.sound.get(this.actual_music)==null?
+        this.music = this.sound.add(this.actual_music,{loop: true, volume: 0.2}):
+        this.music = this.sound.get(this.actual_music)
+        this.music.play()
+      } else {
+        this.actualScene.scene.start('Menu')
+      }
+
     })
+
   }
 
   update(){

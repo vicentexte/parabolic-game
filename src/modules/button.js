@@ -16,7 +16,7 @@ export default class Button {
 
     create(){
         const father = this.scene
-        //Load the sfx after scene preload
+        //Check if sfx exist else load itself
         if (father.sound.get('click_sfx')==null){
             father.scene.pause()
             father.load.audio('click_sfx', click_sfx);

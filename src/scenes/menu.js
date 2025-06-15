@@ -43,14 +43,15 @@ export default class Menu extends Phaser.Scene {
     .setScrollFactor(1);
     // Create the player
     this.player = new Player(this,this.scale.width/2,this.scale.height/2)
+
+    //Create Buttons
     this.start_button = new Button(this,this.scale.width/2,this.scale.height/2-200,'start_button')
     this.tutorial_button = new Button(this,this.scale.width/2,this.scale.height/2,'tutorial_button')
   }
 
   update(){
     if (this.player) this.player.update() // Update the player if it exists
-    this.start_button.update()
-    this.tutorial_button.update()
+
   }
 
 
