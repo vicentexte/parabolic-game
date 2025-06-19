@@ -7,6 +7,8 @@ import restart_button from '@/assets/sprites/interface/restart_button.webp'
 //import music and sfx
 import earth_music from '@/assets/sounds/music/earth_music.ogg'
 import space_music from '@/assets/sounds/music/space_music.ogg'
+import coin_sfx from '@/assets/sounds/sfx/coin_pickup.ogg'
+import level_completed_sfx from '@/assets/sounds/sfx/level_completed.ogg'
 //import modules
 import Button from '@/modules/button';
 
@@ -27,6 +29,9 @@ export default class Interface extends Phaser.Scene{
 
     this.load.audio('earth_music', earth_music)
     this.load.audio('space_music', space_music)
+
+    this.load.audio('coin_sfx',coin_sfx)
+    this.load.audio('level_completed_sfx',level_completed_sfx)
   }
 
   create(){
@@ -72,6 +77,9 @@ export default class Interface extends Phaser.Scene{
 
   //Function to collect coins
   collectCoin(player, coin){
+    this.coin_sfx == undefined?
+    this.coin_sfx = this.sound.add('coin_sfx',{loop: false, volume: 0.8}):true
+    this.coin_sfx.play()
     coin.disableBody(true, true);
     this.coinsCollected++;
     this.coinText.setText('x' + this.coinsCollected)
@@ -79,6 +87,9 @@ export default class Interface extends Phaser.Scene{
 
   //Function to handle the end of the level, Count the amount of stars and show there, the handle the music and level transition
   handleLevelEnd(){
+    this.level_completed_sfx == undefined?
+    this.level_completed_sfx = this.sound.add('level_completed_sfx',{loop: false, volume: 0.8}):true
+    this.level_completed_sfx.play()
     const jumps = this.actualScene.player.jumpCount;
     let stars = 0;
 
@@ -102,6 +113,7 @@ export default class Interface extends Phaser.Scene{
     this.time.delayedCall(2000,() => {
       finalText.destroy()
       this.music.stop()
+      
 
       if (this.levelScenes[this.actualScene.level] != undefined){
         this.actualScene.scene.start(this.levelScenes[this.actualScene.level])

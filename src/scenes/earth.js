@@ -3,6 +3,9 @@ import Phaser from 'phaser'
 // Instances
 import Player from '../modules/player.js'
 import Goal from '@/modules/goal.js'
+import Vine from '@/modules/vine.js'
+import Cactus from '@/modules/cactus.js'
+import Coin from '@/modules/coin.js'
 
 //Assets
 import background from '@/assets/sprites/backgrounds/earth_bg.webp'
@@ -14,9 +17,6 @@ import trunkHalfBottom from '@/assets/sprites/instances/earth/trunk_half_bottom.
 import branch from '@/assets/sprites/instances/earth/branch.webp'
 import cactus from '@/assets/sprites/instances/earth/cactus.webp'
 import vine from '@/assets/sprites/instances/earth/vine.webp'
-
-//SFX
-import click_sfx from '@/assets/sounds/sfx/click.ogg'
 
 export default class Earth extends Phaser.Scene{
   constructor(){
@@ -44,8 +44,6 @@ export default class Earth extends Phaser.Scene{
           this.load.image('branch', branch)
           this.load.image('cactus', cactus)
           this.load.image('vine', vine)
-
-          this.load.audio('click_sfx',click_sfx)
         }
 
         create() {
@@ -115,48 +113,31 @@ export default class Earth extends Phaser.Scene{
           trunkGroup.add(trunk3)
           this.physics.add.collider(this.player.sprite, trunkGroup);
           
+          
           //Create Cactus
           const cactusGroup = this.physics.add.staticGroup();
-
-          //Cactus1
-          const cactus1 = this.physics.add.staticImage(900, 570, 'cactus')
-          .setScale(0.25)
-          .refreshBody()
-          .setSize(100,120)
-
-          //Cactus2
-          const cactus2 = this.physics.add.staticImage(800, 550, 'cactus')
-          .setScale(0.3)
-          .refreshBody()
-          .setSize(100,150)
-
-          //Overlap between player and cactus => restarts the scene
+          const cactus1 = new Cactus(this,900, 570, 'cactus').fullSize(false)
+          const cactus2 = new Cactus(this,800, 550, 'cactus').fullSize(true)
           cactusGroup.add(cactus1)
           cactusGroup.add(cactus2)
+          //Overlap between player and cactus => restarts the scene
           this.physics.add.overlap(this.player.sprite, cactusGroup, () => {
             this.scene.restart()
           })
 
           //Create vine
-          const vine = this.physics.add.staticImage(900, 95, 'vine')
-            .setScale(0.2)
-            .refreshBody()
-            .setSize(30,400)
-          vine.setOffset(
-            (vine.displayWidth-95),
-            (vine.displayHeight-400) 
-          )
+          const vine = new Vine(this,900,95,'vine').staticImage
 
           //Overlap between player and vine => slows down the player
           this.physics.add.overlap(this.player.sprite, vine, () => {
               this.player.sprite.setVelocityX(this.player.sprite.body.velocity.x /3);
               this.player.sprite.setVelocityY(this.player.sprite.body.velocity.y /3);
           })
-          
+
           //Create coins
           const coinGroup = this.physics.add.staticGroup();
-          const coin1 = this.physics.add.staticImage(510, 145,'coin').setScale(0.03).refreshBody()
-          const coin2 = this.physics.add.staticImage(770, 250,'coin').setScale(0.03).refreshBody()
+          const coin1 = new Coin(this,510, 145,'coin').staticImage
+          const coin2 = new Coin(this,770, 250,'coin').staticImage
           
           //Overlap between player and coin => collects the coin
           coinGroup.add(coin1)
