@@ -116,6 +116,22 @@ export default class Button {
                 })
             break;
 
+            case 'scores_button':
+                this.sprite.setScale(0.3)
+                this.sprite.on('pointerdown', () => {
+                    this.click_sfx.play()
+                    father.scene.start('Score')
+                })
+            break;
+
+            case 'back_button':
+                this.sprite.setScale(0.15).setOrigin(0,0)
+                this.sprite.on('pointerdown', () => {
+                    this.click_sfx.play()
+                    father.scene.start('Menu')
+                })
+            break;
+
             default:
                 console.warn(`Button type ${this.buttonType} not recognized.`);
         }

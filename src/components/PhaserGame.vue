@@ -9,6 +9,7 @@ import Menu from '@/scenes/menu'
 import Space from '@/scenes/space'
 import Interface from '@/scenes/interface'
 import Inputs from '@/scenes/inputs'
+import Scores from '@/scenes/scores'
 
 export default {
   name: 'PhaserGame',
@@ -37,7 +38,7 @@ export default {
       Interface: The UI elements that will be displayed on top of the game.
       Inputs: Handles user input and controls.
       */
-      scene: [Menu,Earth,Space,Interface,Inputs],
+      scene: [Menu,Earth,Space,Interface,Inputs,Scores],
       dom: {
         createContainer: true
         }

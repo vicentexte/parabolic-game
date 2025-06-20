@@ -15,8 +15,8 @@ export default class Asteroid{
     }
 
     path(vx,vy){
-        this.sprite.setVelocity(vx*Math.cos(Phaser.Math.DegToRad(this.angle)),vy*Math.sin(Phaser.Math.DegToRad(this.angle))) 
         this.sprite.angle = Phaser.Math.RadToDeg(Math.atan2(this.sprite.body.velocity.y,this.sprite.body.velocity.x))-135
+        this.sprite.setVelocity(vx*Math.cos(Phaser.Math.DegToRad(this.angle)),vy*Math.sin(Phaser.Math.DegToRad(this.angle))) 
     }
 
     update(){

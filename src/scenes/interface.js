@@ -4,6 +4,7 @@ import Phaser, { NONE } from 'phaser';
 import menu_button from '@/assets/sprites/interface/menu_button.webp'
 import pause_button from '@/assets/sprites/interface/pause_button.webp'
 import restart_button from '@/assets/sprites/interface/restart_button.webp'
+import arrow_pointer from '@/assets/sprites/interface/arrow_pointer.webp'
 //import music and sfx
 import earth_music from '@/assets/sounds/music/earth_music.ogg'
 import space_music from '@/assets/sounds/music/space_music.ogg'
@@ -11,6 +12,7 @@ import coin_sfx from '@/assets/sounds/sfx/coin_pickup.ogg'
 import level_completed_sfx from '@/assets/sounds/sfx/level_completed.ogg'
 //import modules
 import Button from '@/modules/button';
+import ArrowPointer from '@/modules/arrow_pointer';
 
 
 export default class Interface extends Phaser.Scene{
@@ -26,6 +28,7 @@ export default class Interface extends Phaser.Scene{
     this.load.image('menu_button', menu_button)
     this.load.image('pause_button', pause_button) 
     this.load.image('restart_button', restart_button)
+    this.load.image('arrow_pointer', arrow_pointer)
 
     this.load.audio('earth_music', earth_music)
     this.load.audio('space_music', space_music)
@@ -48,6 +51,9 @@ export default class Interface extends Phaser.Scene{
     this.music = this.sound.get(this.actual_music); 
 
     !this.sound.isPlaying(this.actual_music)? this.music.play(): NONE //Averiguar si NONE está correcto
+
+    //Arrow pointer
+    this.arrow_pointer = new ArrowPointer(this,'arrow_pointer') 
 
     //Set up options buttons
     new Button(this, 0, 0, 'interface_buttons')
@@ -131,6 +137,9 @@ export default class Interface extends Phaser.Scene{
   }
 
   update(){
+    //Run arrow_pointer's update function
+    this.arrow_pointer.update()
+
     //Check if the Inputs scene is active, if not, launch it just in case the player can fire
     if (this.actualScene.player){
       if (!this.scene.isActive('Inputs') && this.actualScene.player.canFire == true){

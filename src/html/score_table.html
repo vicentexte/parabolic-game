@@ -1,0 +1,54 @@
+<div id="tabla-container">
+
+<style>
+  #tabla-container {
+    background-image: url('{{dom_bg}}');
+    background-size: cover;
+    background-position: center;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    width: 100%;
+    max-width: 550px;
+    margin: auto;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    font-size: 32px;
+    
+  }
+
+  #tabla-container table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid #8B5E3C; /* borde marrón madera */
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: transparent; /* sin fondo */
+  }
+
+  #tabla-container th, #tabla-container td {
+    padding: 12px 16px;
+    border: 1px solid #a87c52;
+    text-align: center;
+    color: #E69F2B;
+    background-color: transparent; /* sin fondo */
+  }
+
+  #tabla-container th {
+    font-weight: bold;
+  }
+</style>
+
+
+  <table id="tabla-puntajes">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Puntaje</th>
+        <th>Fecha</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Filas dinámicas -->
+    </tbody>
+  </table>
+</div>

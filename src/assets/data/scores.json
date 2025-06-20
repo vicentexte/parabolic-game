@@ -1,0 +1,8 @@
+{
+    "elements":[
+        {"name":"Raul","score":30,"date":"10-02-2025"},
+        {"name":"Olivia","score":21,"date":"10-02-2025"},
+        {"name":"Pepe","score":15,"date":"10-02-2025"},
+        {"name":"Eduardo","score":10,"date":"10-02-2025"}
+    ]
+}

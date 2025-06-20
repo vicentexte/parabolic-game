@@ -7,6 +7,7 @@ import Player from '@/modules/player'
 import background from '@/assets/sprites/backgrounds/earth_bg.webp'
 import start_button from '@/assets/sprites/interface/start_button.webp'
 import tutorial_button from '@/assets/sprites/interface/tutorial_button.webp'
+import scores_button from '@/assets/sprites/interface/scores_button.webp'
 import Button from '@/modules/button'
 
 export default class Menu extends Phaser.Scene {
@@ -27,7 +28,8 @@ export default class Menu extends Phaser.Scene {
     this.load.image('menu_bg', background)
     this.load.image('start_button', start_button)
     this.load.image('tutorial_button', tutorial_button)
-    this.load.image('player', 'https://labs.phaser.io/assets/sprites/phaser-dude.png');
+    this.load.image('scores_button', scores_button)
+    this.load.image('player', 'https://labs.phaser.io/assets/sprites/phaser-dude.png')
   }
 
   create() {
@@ -47,6 +49,7 @@ export default class Menu extends Phaser.Scene {
     //Create Buttons
     this.start_button = new Button(this,this.scale.width/2,this.scale.height/2-200,'start_button')
     this.tutorial_button = new Button(this,this.scale.width/2,this.scale.height/2,'tutorial_button')
+    this.scores_button = new Button(this, this.scale.width/2, this.scale.height/2+200, 'scores_button')
   }
 
   update(){
