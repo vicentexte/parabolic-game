@@ -51,12 +51,6 @@ export default class Space extends Phaser.Scene{
           //Create the goal
           this.goal = new Goal(this,this.scale.width-400,150,'goal').invertColor().spaceEvent()
 
-          // Add overlap between player and goal
-          this.physics.add.overlap(this.player.sprite, this.goal.sprite, () => {
-            this.player.sprite.disableBody()
-            this.scene.manager.getScene('Interface').handleLevelEnd();
-          })
-
           //Create the asteroidsGroup
           this.asteroid1 = new Asteroid(this,this.scale.width/2,100)
           this.asteroid2 = new Asteroid(this,this.scale.width/2-50,200)

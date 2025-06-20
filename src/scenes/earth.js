@@ -24,7 +24,7 @@ export default class Earth extends Phaser.Scene{
       key:"Earth",
       physics: {
         arcade: {
-          debug: false,
+          debug: true,
         },
       }
     });
@@ -62,12 +62,6 @@ export default class Earth extends Phaser.Scene{
 
           // Create the goal, set up its size and offset
           this.goal = new Goal(this,1245,590,'goal')
-
-          // Overlap between player and goal => ends the level
-          this.physics.add.overlap(this.player.sprite, this.goal.sprite, () => {
-            this.player.sprite.disableBody()
-            this.scene.manager.getScene('Interface').handleLevelEnd();
-          });
           
           // Create trunks
           const trunkGroup = this.physics.add.staticGroup();
@@ -122,7 +116,8 @@ export default class Earth extends Phaser.Scene{
           cactusGroup.add(cactus2)
           //Overlap between player and cactus => restarts the scene
           this.physics.add.overlap(this.player.sprite, cactusGroup, () => {
-            this.scene.restart()
+            this.player.life-=1
+            this.player.sprite.setPosition(0,0)
           })
 
           //Create vine

@@ -1,7 +1,4 @@
 <style>
-#ui-container:hover {
-    opacity: 1;
-}
 
 #ui-container {
     background-image: url('{{dom_bg}}');
@@ -14,7 +11,6 @@
     padding: 20px;
     border-radius: 30px;
     box-sizing: border-box;
-    opacity: 0.3;
 }
 
 .label-img {
@@ -25,45 +21,44 @@
     margin-top: 5px;
 }
 
-.label-angulo {
-    height: 48px;
+.label-nombre {
+    height: 35px;
 }
 
-.label-velocidad {
-    height: 15px;
+.label-score {
+    height: 40px;
 }
 
 input {
     width: 100%;
-    height: 30px; /* Más corto */
+    height: 30px;
     padding: 5px 10px;
     margin-bottom: 12px;
-    font-size: 25px;
+    font-size: 20px;
     border: 1px solid black;
     background-color: rgb(84,42,3); 
     color: rgb(233, 160, 43);
     border-radius: 8px;
     box-sizing: border-box;
-    text-align: center
+    text-align: center;
 }
 
 input::placeholder {
-  color: rgb(157,88,16); 
-  opacity: 1; 
+    color: rgb(157,88,16); 
+    opacity: 1; 
 }
 
-/* Quitar flechas en Chrome, Safari, Edge, Opera */
 .no-spinner::-webkit-outer-spin-button,
 .no-spinner::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 button {
     width: 100%;
-    height: 60px;
+    height: 80px;
     border: none;
-    background-image: url('{{fire_button}}');
+    background-image: url('{{send_button}}');
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: center;
@@ -76,12 +71,20 @@ button:hover {
     filter: brightness(1.2);
 }
 
+.score-text {
+    font-size: 22px;
+    color: rgb(233, 160, 43);
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 12px;
+}
 </style>
 
 <div id="ui-container">
-<img class="label-img label-angulo" src="{{angle_label}}" alt="Ángulo">
-<input type="number" min="0" max="360" class="no-spinner" name="angle" placeholder="(°)">
-<img class="label-img label-img" src="{{velocity_label}}" alt="Velocidad">
-<input type="number" min="0" max="100" class="no-spinner" name="velocity" placeholder="(m/s)">
-<button></button>
+    <img class="label-img label-nombre" src="{{name_label}}" alt="Nombre">
+    <input type="text" name="username" placeholder="Tu nombre">
+    <img class="label-img label-score" src="{{score_label}}" alt="Puntuación">
+    <div class="score-text">{{score}}</div>
+
+    <button id="button"></button>
 </div>

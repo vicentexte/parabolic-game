@@ -5,6 +5,7 @@ import menu_button from '@/assets/sprites/interface/menu_button.webp'
 import pause_button from '@/assets/sprites/interface/pause_button.webp'
 import restart_button from '@/assets/sprites/interface/restart_button.webp'
 import arrow_pointer from '@/assets/sprites/interface/arrow_pointer.webp'
+import arrow_head from '@/assets/sprites/interface/arrow_head.webp'
 //import music and sfx
 import earth_music from '@/assets/sounds/music/earth_music.ogg'
 import space_music from '@/assets/sounds/music/space_music.ogg'
@@ -29,6 +30,8 @@ export default class Interface extends Phaser.Scene{
     this.load.image('pause_button', pause_button) 
     this.load.image('restart_button', restart_button)
     this.load.image('arrow_pointer', arrow_pointer)
+    this.load.image('arrow_head', arrow_head)
+    this.load.image('player', 'https://labs.phaser.io/assets/sprites/phaser-dude.png');
 
     this.load.audio('earth_music', earth_music)
     this.load.audio('space_music', space_music)
@@ -53,19 +56,13 @@ export default class Interface extends Phaser.Scene{
     !this.sound.isPlaying(this.actual_music)? this.music.play(): NONE //Averiguar si NONE está correcto
 
     //Arrow pointer
-    this.arrow_pointer = new ArrowPointer(this,'arrow_pointer') 
+    this.arrow_pointer = new ArrowPointer(this,'arrow_pointer','arrow_head') 
 
     //Set up options buttons
     new Button(this, 0, 0, 'interface_buttons')
 
     // Set up the coins system
-    var ypos = this.textures.getFrame('menu_button').height * 0.15
-    this.coinsCollected = 0;
-    this.coinIcon = this.add.image(0, ypos + 10, 'coin')
-      .setOrigin(0,0)
-      .setScale(0.05)
-      .setScrollFactor(0);
-    this.coinText = this.add.text(68, this.coinIcon.y, 'x0',{
+    var style = {
       fontFamily: 'Courier New',
       fontSize: '34px',
       color: '#ffffff',
@@ -78,7 +75,19 @@ export default class Interface extends Phaser.Scene{
         blur: 0,
         fill: true
       }
-    })
+    }
+    var ypos = this.textures.getFrame('menu_button').height * 0.15
+    this.coinsCollected = 0;
+    this.coinIcon = this.add.image(0, ypos + 10, 'coin')
+      .setOrigin(0,0)
+      .setScale(0.05)
+      .setScrollFactor(0);
+    this.coinText = this.add.text(68, this.coinIcon.y, 'x0', style)
+
+    this.lifeIcon = this.add.image(20, this.coinIcon.y + this.coinIcon.displayHeight + 10, 'player')
+      .setOrigin(0,0)
+      .setScrollFactor(0);
+    this.lifeText = this.add.text(68, this.lifeIcon.y, 'x' + this.actualScene.player.lifes, style)
   }
 
   //Function to collect coins
@@ -106,7 +115,7 @@ export default class Interface extends Phaser.Scene{
     } else {
       stars = 0;
     }
-
+    this.lifeText.setText('x3')
     const starText = stars === 0 ? '❌ No stars' : '⭐'.repeat(stars);
     const finalText = this.add.text(this.actualScene.scale.width / 2, this.actualScene.scale.height / 2, starText, {
       fontSize: '40px',
@@ -114,35 +123,42 @@ export default class Interface extends Phaser.Scene{
       fontFamily: 'Arial',
       backgroundColor: '#000'
     }).setOrigin(0.5)
-
+    
     //Level and music transition
-    this.time.delayedCall(2000,() => {
-      finalText.destroy()
-      this.music.stop()
-      
-
-      if (this.levelScenes[this.actualScene.level] != undefined){
-        this.actualScene.scene.start(this.levelScenes[this.actualScene.level])
-        this.actual_music = this.music_foreach[this.actualScene.level] //here is not -1 because we need the next song
-        this.sound.get(this.actual_music)==null?
-        this.music = this.sound.add(this.actual_music,{loop: true, volume: 0.2}):
-        this.music = this.sound.get(this.actual_music)
-        this.music.play()
+      this.time.delayedCall(2000,() => {
+        finalText.destroy()
+        this.music.stop()
+        if (this.actualScene.player.lifes>0){
+          if (this.levelScenes[this.actualScene.level] != undefined){
+            this.actualScene.scene.start(this.levelScenes[this.actualScene.level])
+            this.actual_music = this.music_foreach[this.actualScene.level] //here is not -1 because we need the next song
+            this.sound.get(this.actual_music)==null?
+            this.music = this.sound.add(this.actual_music,{loop: true, volume: 0.2}):
+            this.music = this.sound.get(this.actual_music)
+            this.music.play()
+          } else {
+            this.actualScene.scene.start('EndGame')
+          }
       } else {
-        this.actualScene.scene.start('Menu')
+        this.actualScene.scene.start('EndGame')
       }
-
     })
-
   }
 
   update(){
+
     //Run arrow_pointer's update function
     this.arrow_pointer.update()
 
     //Check if the Inputs scene is active, if not, launch it just in case the player can fire
     if (this.actualScene.player){
+      if (this.actualScene.player.lifes == 0) {
+        this.actualScene.scene.pause()
+        this.handleLevelEnd()
+      }
+
       if (!this.scene.isActive('Inputs') && this.actualScene.player.canFire == true){
+        if (this.actualScene.player.sprite.active) this.lifeText.setText('x' + this.actualScene.player.lifes)
         this.scene.launch('Inputs')
       }
     }

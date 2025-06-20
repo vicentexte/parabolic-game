@@ -37,7 +37,7 @@ export default class Inputs extends Phaser.Scene{
       const angleVal = parseFloat(this.angleInput.value)
       const velocityVal = parseFloat(this.velocityInput.value)
       this.actualScene = this.scene.manager.getScenes()[0];
-      if (angleVal != 0 && Math.abs(angleVal) < 360 && velocityVal != 0 && Math.abs(velocityVal) < 500){ //for limit the angle and velocity values
+      if (Math.abs(angleVal) < 360 && velocityVal != 0 && Math.abs(velocityVal) <= 100){ //for limit the angle and velocity values
           this.actualScene.player.fire(angleVal,velocityVal)
           if (!this.scene.isActive('Menu'))  this.scene.stop()
           }

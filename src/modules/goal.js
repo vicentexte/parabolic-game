@@ -21,6 +21,12 @@ export default class Goal {
             (sprite.displayWidth - body.width),
             (sprite.displayHeight - body.height+19)
         ).setAllowGravity(false)
+
+        //player overlap
+        this.scene.physics.add.overlap(this.scene.player.sprite, this.sprite, () => {
+            this.scene.player.sprite.disableBody(true)
+            this.scene.scene.manager.getScene('Interface').handleLevelEnd();
+          });
     }
 
     invertColor(){
