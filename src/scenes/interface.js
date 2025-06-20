@@ -41,6 +41,9 @@ export default class Interface extends Phaser.Scene{
   }
 
   create(){
+    //score count
+    this.score = 0
+
     //Set the playable scenes
     this.levelScenes=['Earth','Space']
 
@@ -98,6 +101,7 @@ export default class Interface extends Phaser.Scene{
     coin.disableBody(true, true);
     this.coinsCollected++;
     this.coinText.setText('x' + this.coinsCollected)
+    this.score += 2
   }
 
   //Function to handle the end of the level, Count the amount of stars and show there, the handle the music and level transition
@@ -117,13 +121,13 @@ export default class Interface extends Phaser.Scene{
     }
     this.lifeText.setText('x3')
     const starText = stars === 0 ? '❌ No stars' : '⭐'.repeat(stars);
+    this.score += stars
     const finalText = this.add.text(this.actualScene.scale.width / 2, this.actualScene.scale.height / 2, starText, {
       fontSize: '40px',
       color: '#fff',
       fontFamily: 'Arial',
       backgroundColor: '#000'
     }).setOrigin(0.5)
-    
     //Level and music transition
       this.time.delayedCall(2000,() => {
         finalText.destroy()
