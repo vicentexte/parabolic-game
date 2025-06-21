@@ -156,7 +156,7 @@ export default class Interface extends Phaser.Scene{
 
     //Check if the Inputs scene is active, if not, launch it just in case the player can fire
     if (this.actualScene.player){
-      if (this.actualScene.player.lifes == 0) {
+      if (this.actualScene.player.lifes == 0 && this.actualScene.player.canFire==true) {
         this.actualScene.scene.pause()
         this.handleLevelEnd()
       }
