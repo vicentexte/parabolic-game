@@ -1,22 +1,37 @@
-.DS_Store
-node_modules
+# Node modules (en backend y frontend)
+node_modules/
+myfrontend/node_modules/
+mybackend/node_modules/
 
-
-# local env files
-.env.local
-.env.*.local
-
-# Log files
+# Archivos de log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# Editor directories and files
-.idea
-.vscode
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+# Directorios de producción/compilados
+dist/
+build/
+
+# Configuración de entorno
+.env
+.env.local
+.env.*.local
+
+# Datos persistentes de MongoDB (generados por Docker)
+storage/data/
+
+# Archivos del sistema y temporales
+.DS_Store
+Thumbs.db
+
+# Archivos de VS Code (opcional)
+.vscode/
+
+# Docker
+docker-compose.override.yml
+*.pid
+
+# Archivos creados por tests
+coverage/
+*.test.js.snap
