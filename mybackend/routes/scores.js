@@ -6,7 +6,7 @@ const Score = require('../models/Score');
 //GET para obtener puntajes
 router.get('/', async (req, res) => {
   try {
-    const scores = await Score.find().sort({ createdAt: -1 });
+    const scores = await Score.find().sort({ puntos: -1 });
     res.json(scores);
   } catch (err) {
     console.error('Error al obtener los puntajes:', err);
