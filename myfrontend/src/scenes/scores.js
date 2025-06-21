@@ -38,7 +38,7 @@ export default class Scores extends Phaser.Scene {
             const tbody = tabla.querySelector("tbody");
 
             try {
-                const response = await fetch("http://localhost:3000/api/scores"); // <-- Aquí llamas a tu backend
+                const response = await fetch("http://localhost:3000/api/scores");
                 const data = await response.json();
 
                 data.forEach(d => {

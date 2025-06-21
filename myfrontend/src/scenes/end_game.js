@@ -34,13 +34,34 @@ export default class EndGame extends Phaser.Scene {
       .replace('{{score_label}}',score_label)
       .replace('{{score}}', score)
     )
-
+    
     const send = dom.node.querySelector('button')
 
     send.addEventListener('click', () => {
       click.play()
+      this.sendData(dom,score)
       this.scene.start('Menu')
     })
+  }
+
+  sendData(dom,score){
+    fetch('http://localhost:3000/api/scores', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      jugador: dom.node.querySelector('input[name=username]').value,
+      puntos: score
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    console.log('Respuesta del backend:', data);
+  })
+  .catch(error => {
+    console.error('Error al enviar los datos:', error);
+  });
   }
 
   update(){
