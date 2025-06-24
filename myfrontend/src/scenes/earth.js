@@ -116,8 +116,8 @@ export default class Earth extends Phaser.Scene{
           cactusGroup.add(cactus2)
           //Overlap between player and cactus => restarts the scene
           this.physics.add.overlap(this.player.sprite, cactusGroup, () => {
-            this.player.life-=1
-            this.player.sprite.setPosition(0,0)
+            this.player.lifes-=1
+            this.player.sprite.setPosition(0,this.scale.height)
           })
 
           //Create vine

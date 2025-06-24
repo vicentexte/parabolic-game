@@ -18,7 +18,7 @@
     "vue-axios": "^3.5.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.16",
+    "@babel/core": "^7.27.4",
     "@babel/eslint-parser": "^7.12.16",
     "@babel/preset-env": "^7.27.2",
     "@vue/cli-plugin-babel": "~5.0.0",
@@ -57,7 +57,9 @@
       "parser": "@babel/eslint-parser",
       "requireConfigFile": false,
       "babelOptions": {
-        "presets": ["@vue/cli-plugin-babel/preset"]
+        "presets": [
+          "@babel/preset-env"
+        ]
       }
     },
     "rules": {
