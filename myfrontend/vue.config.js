@@ -16,5 +16,5 @@ module.exports = defineConfig({
         filename: 'assets/sounds/[name].[hash:8][ext]'
       });
   },
-  publicPath: '/myfrontend'
+  publicPath: '/parabolic-game'
 })
