@@ -53,17 +53,19 @@ export default class Space extends Phaser.Scene{
 
           //Create the asteroidsGroup
           this.asteroid1 = new Asteroid(this,this.scale.width/2,100)
-          this.asteroid2 = new Asteroid(this,this.scale.width/2-50,200)
-          this.asteroid2.velocity /= 2
-          this.asteroid2.pathIsInvert=true
+          //this.asteroid2 = new Asteroid(this,this.scale.width/2-50,200)
+          //this.asteroid2.velocity /= 2
+          //this.asteroid2.pathIsInvert=true
 
           const asteroidsGroup = this.add.group()
           asteroidsGroup.add(this.asteroid1.sprite)
-          asteroidsGroup.add(this.asteroid2.sprite)
+          //asteroidsGroup.add(this.asteroid2.sprite)
 
           //Add overlaps between player and asteroids
           this.physics.add.overlap(this.player.sprite, asteroidsGroup, () => {
-            this.scene.restart()
+            this.player.life-=1
+            this.player.sprite.setPosition(0,this.scale.height)
+            
           },null,this)
 
           //Add overlap between player and coins
@@ -78,7 +80,7 @@ export default class Space extends Phaser.Scene{
         update(time) {
           this.player.update()
           this.asteroid1.update()
-          this.asteroid2.update()
+          //this.asteroid2.update()
           this.goal.update(time)
         }
 }

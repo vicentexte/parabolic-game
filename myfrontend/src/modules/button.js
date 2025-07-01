@@ -1,3 +1,4 @@
+
 import click_sfx from '../assets/sounds/sfx/click.ogg'
 
 export default class Button {
@@ -84,7 +85,8 @@ export default class Button {
                         father.pause_buttonText.destroy()
                         father.music.resume()
                     }
-                    father.actualScene.scene.restart(); 
+                    //hacer algun cuadrito de confirmacion
+                    father.actualScene.scene.start('Earth');
                 })
             break;
 

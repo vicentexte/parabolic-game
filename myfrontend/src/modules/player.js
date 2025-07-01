@@ -5,10 +5,11 @@ export default class Player {
     this.sprite = scene.physics.add.sprite(x, y, 'player')
     this.sprite.setCollideWorldBounds(true) 
     this.sprite.setBounce(0.3)
+    this.sprite.setDepth(1)
     this.canFire = false
     this.jumpCount = 0;
   }
-
+  
   fire(angle, velocity) {
     if (this.canFire == true){
       const angleRad = Phaser.Math.DegToRad(angle)

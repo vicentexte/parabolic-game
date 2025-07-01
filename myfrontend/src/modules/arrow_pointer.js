@@ -3,10 +3,9 @@ import Phaser from 'phaser'
 export default class ArrowPointer{
     constructor(scene,texture1,texture2){
         this.scene = scene
-        this.image = scene.add.image(500,500,texture1).setScale(0.3)
-        this.image.setOrigin(0,0.5)
+        this.image = scene.add.image(500,500,texture1).setScale(0.25).setOrigin(0,0.5).setDepth(0)
         this.image.displayHeight/2
-        this.image_head = scene.add.image(500,500,texture2).setOrigin(0,0.5).setScale(0.3)
+        this.image_head = scene.add.image(500,500,texture2).setOrigin(0,0.5).setScale(0.25).setDepth(0)
         this.create()
     }
 
