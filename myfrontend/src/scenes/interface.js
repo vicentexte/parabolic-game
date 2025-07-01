@@ -24,6 +24,7 @@ export default class Interface extends Phaser.Scene{
   }
 
   //Variables for coins statistics
+  tutorialPassed = false
 
   preload(){
     this.load.image('menu_button', menu_button)
@@ -161,7 +162,7 @@ export default class Interface extends Phaser.Scene{
         this.handleLevelEnd()
       }
 
-      if (!this.scene.isActive('Inputs') && this.actualScene.player.canFire == true){
+      if (!this.scene.isActive('Inputs') && this.actualScene.player.canFire == true && !this.scene.isActive('Tutorial')){
         if (this.actualScene.player.sprite.active) this.lifeText.setText('x' + this.actualScene.player.lifes)
         this.scene.launch('Inputs')
       }
