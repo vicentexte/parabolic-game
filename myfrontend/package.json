@@ -78,7 +78,8 @@
   "jest": {
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/src/$1",
-      "^phaser$": "<rootDir>/node_modules/phaser/dist/phaser.js"
+      "^phaser$": "<rootDir>/node_modules/phaser/dist/phaser.js",
+      "\\.(jpg|jpeg|png|gif|webp|svg)$": "<rootDir>/tests/__mocks__/fileMock.js"
     },
     "moduleFileExtensions": [
       "js",
