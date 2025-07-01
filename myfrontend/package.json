@@ -18,7 +18,7 @@
     "vue-axios": "^3.5.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.16",
+    "@babel/core": "^7.27.4",
     "@babel/eslint-parser": "^7.12.16",
     "@babel/preset-env": "^7.27.2",
     "@vue/cli-plugin-babel": "~5.0.0",
@@ -57,7 +57,9 @@
       "parser": "@babel/eslint-parser",
       "requireConfigFile": false,
       "babelOptions": {
-        "presets": ["@vue/cli-plugin-babel/preset"]
+        "presets": [
+          "@babel/preset-env"
+        ]
       }
     },
     "rules": {
@@ -74,10 +76,10 @@
     "not ie 11"
   ],
   "jest": {
-    "version": 29,
     "moduleNameMapper": {
-      "Phaser": "phaser/dist/phaser.js",
-      "PhaserGame": "./src/components/PhaserGame.vue"
+      "^@/(.*)$": "<rootDir>/src/$1",
+      "^phaser$": "<rootDir>/node_modules/phaser/dist/phaser.js",
+      "\\.(jpg|jpeg|png|gif|webp|svg)$": "<rootDir>/tests/__mocks__/fileMock.js"
     },
     "moduleFileExtensions": [
       "js",
@@ -85,7 +87,7 @@
     ],
     "transform": {
       "^.+\\.js$": "babel-jest",
-      "^.+\\.(vue)$": "@vue/vue3-jest"
+      "^.+\\.vue$": "@vue/vue3-jest"
     },
     "coveragePathIgnorePatterns": [
       "/node_modules/",

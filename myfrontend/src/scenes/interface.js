@@ -24,6 +24,7 @@ export default class Interface extends Phaser.Scene{
   }
 
   //Variables for coins statistics
+  tutorialPassed = false
 
   preload(){
     this.load.image('menu_button', menu_button)
@@ -156,12 +157,12 @@ export default class Interface extends Phaser.Scene{
 
     //Check if the Inputs scene is active, if not, launch it just in case the player can fire
     if (this.actualScene.player){
-      if (this.actualScene.player.lifes == 0) {
+      if (this.actualScene.player.lifes == 0 && this.actualScene.player.canFire==true) {
         this.actualScene.scene.pause()
         this.handleLevelEnd()
       }
 
-      if (!this.scene.isActive('Inputs') && this.actualScene.player.canFire == true){
+      if (!this.scene.isActive('Inputs') && this.actualScene.player.canFire == true && !this.scene.isActive('Tutorial')){
         if (this.actualScene.player.sprite.active) this.lifeText.setText('x' + this.actualScene.player.lifes)
         this.scene.launch('Inputs')
       }

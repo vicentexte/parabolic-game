@@ -42,9 +42,15 @@ export default class Inputs extends Phaser.Scene{
           if (!this.scene.isActive('Menu'))  this.scene.stop()
           }
     })
+
+    //launch tutorial
+    if (this.scene.manager.getScenes()[0]==this.scene.get("Earth") && this.scene.manager.getScene("Interface").tutorialPassed == false){
+      this.scene.launch("Tutorial")
+    }
+    
   }
 
   update(){
-    if (!this.scene.manager.isActive('Interface') && this.scene.manager.getScene('Menu').autorizeTutorial == false) this.scene.stop()
+    if (!this.scene.manager.isActive('Interface') || this.scene.manager.isActive('Tutorial')) this.scene.stop()
   }
 }
