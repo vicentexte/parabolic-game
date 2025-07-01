@@ -78,9 +78,9 @@
 "jest": {
   "version": 29,
   "moduleNameMapper": {
-    "^@/(.*)$": "<rootDir>/src/$1",
-    "Phaser": "phaser/dist/phaser.js",
-    "PhaserGame": "<rootDir>/src/components/PhaserGame.vue"
+    "^@/(.*)$": "<rootDir>/myfrontend/src/$1",
+    "Phaser": "<rootDir>/myfrontend/node_modules/phaser/dist/phaser.js",
+    "PhaserGame": "<rootDir>/myfrontend/src/components/PhaserGame.vue"
   },
   "moduleFileExtensions": [
     "js",
