@@ -75,34 +75,32 @@
     "not dead",
     "not ie 11"
   ],
-"jest": {
-  "version": 29,
-  "moduleNameMapper": {
-    "^@/(.*)$": "<rootDir>/myfrontend/src/$1",
-    "Phaser": "<rootDir>/myfrontend/node_modules/phaser/dist/phaser.js",
-    "PhaserGame": "<rootDir>/myfrontend/src/components/PhaserGame.vue"
-  },
-  "moduleFileExtensions": [
-    "js",
-    "vue"
-  ],
-  "transform": {
-    "^.+\\.js$": "babel-jest",
-    "^.+\\.vue$": "@vue/vue3-jest"
-  },
-  "coveragePathIgnorePatterns": [
-    "/node_modules/",
-    "/tests/"
-  ],
-  "testEnvironment": "jsdom",
-  "testEnvironmentOptions": {
-    "customExportConditions": [
-      "node",
-      "node-addons"
+  "jest": {
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/src/$1",
+      "^phaser$": "<rootDir>/node_modules/phaser/dist/phaser.js"
+    },
+    "moduleFileExtensions": [
+      "js",
+      "vue"
+    ],
+    "transform": {
+      "^.+\\.js$": "babel-jest",
+      "^.+\\.vue$": "@vue/vue3-jest"
+    },
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/tests/"
+    ],
+    "testEnvironment": "jsdom",
+    "testEnvironmentOptions": {
+      "customExportConditions": [
+        "node",
+        "node-addons"
+      ]
+    },
+    "setupFiles": [
+      "<rootDir>/jest.setup.js"
     ]
-  },
-  "setupFiles": [
-    "<rootDir>/jest.setup.js"
-  ]
-}
+  }
 }
