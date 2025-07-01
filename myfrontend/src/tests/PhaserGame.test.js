@@ -1,4 +1,4 @@
-import PhaserGame from '@PhaserGame.vue'
+import PhaserGame from '@/components/PhaserGame.vue'
 import { mount } from '@vue/test-utils'
 
 describe("PhaserGame.vue", () => {
