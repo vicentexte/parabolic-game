@@ -1,5 +1,7 @@
 import Phaser from "phaser";
-import start_button from "@/assets/sprites/interface/start_button.webp"
+import next_button from "@/assets/sprites/interface/next_button.webp"
+import Button from "@/modules/button";
+import dom_image from "@/assets/sprites/interface/dom_image.webp"
 
 export default class Tutorial extends Phaser.Scene {
     constructor(){
@@ -7,9 +9,10 @@ export default class Tutorial extends Phaser.Scene {
             key:"Tutorial",
         });
     }
-
+functionSelect = 1
     preload(){
-        this.load.image('start_button', start_button)
+        this.load.image('next_button', next_button)
+        this.load.image('dom_image', dom_image)
     }
 
     create() {
@@ -36,8 +39,6 @@ export default class Tutorial extends Phaser.Scene {
 
         // Gráfica para la máscara de agujero
         this.circles = this.make.graphics({ x: 0, y: 0, add: false });
-        this.circles.fillStyle(0xffffff);
-        this.circles.fillCircle(actualscene.player.sprite.x, actualscene.player.sprite.y, 100);
 
         // Crear máscara e invertirla
         const mask = this.circles.createGeometryMask();
@@ -51,36 +52,45 @@ export default class Tutorial extends Phaser.Scene {
             align: 'center'
         };
 
-
-        const text = this.add.text(this.scale.width/2,this.scale.height/2,"Este es tu personaje",style)
-
-        // Función para actualizar la máscara al objetivo
-        const fillGoal = () => {
-            text.destroy()
-            const text2 = this.add.text(this.scale.width/2,this.scale.height/2,'Utiliza el tablero \n para dispararlo y que \n llegue a la meta',style)
-            this.circles.clear();
-            this.circles.fillStyle(0xffffff);
-            this.circles.fillCircle(actualscene.goal.sprite.x, actualscene.goal.sprite.y, 100);
-            boton.destroy()
-            const boton2 = this.add.image(400, 300, 'start_button')
-            .setInteractive()
-            .setScale(0.2);
-            boton2.on('pointerdown', () => {
+        this.functions = [
+            () => {
+                this.text = this.add.text(this.scale.width/2,this.scale.height/2,"Este es tu personaje",style)
+                this.circles.fillStyle(0xffffff);
+                this.circles.fillCircle(actualscene.player.sprite.x, actualscene.player.sprite.y, 100);
+            },
+            () => {
+                this.dom_sprite = this.add.image(this.scale.width/2-200,this.scale.height/2,'dom_image')
+                this.text.destroy()
+                this.text2 = this.add.text(this.scale.width/2,this.scale.height/2,'Utiliza el tablero \n para dispararlo y que \n llegue a la meta',style)
+                this.circles.clear();
+                this.circles.fillStyle(0xffffff);
+                this.circles.fillCircle(actualscene.goal.sprite.x, actualscene.goal.sprite.y, 100);
+            },
+            () => {
+                this.dom_sprite.destroy()
+                this.text2.destroy()
+                this.text3 = this.add.text(this.scale.width/2,this.scale.height/2,'Solo tienes 3 intentos',style)
+                this.circles.clear();
+                this.circles.fillStyle(0xffffff);
+                this.circles.fillCircle(this.scene.get('Interface').lifeIcon.x + 20, this.scene.get('Interface').lifeIcon.y + 20, 75);
+            },
+            () => {
+                this.text3.destroy()
+                this.text3 = this.add.text(this.scale.width/2,this.scale.height/2,'Recolecta monedas para \n más puntuación',style)
+                this.circles.clear();
+                this.circles.fillStyle(0xffffff);
+                this.circles.fillCircle(this.scene.get('Interface').coinIcon.x + 35, this.scene.get('Interface').coinIcon.y + 35, 100);
+            },
+            () => {             
                 this.scene.get("Interface").tutorialPassed = true
-                text2.destroy()
                 this.scene.stop()
-            });
-        };
+            }
+        ]
 
-        // Botón que activa el cambio
-        const boton = this.add.image(400, 300, 'start_button')
-            .setInteractive()
-            .setScale(0.2);
+        new Button(this, this.scale.width - 100, this.scale.height - 500, 'next_button')
 
-        boton.on('pointerdown', () => {
-            fillGoal();
-        });
-}
+        this.functions[0]()
+    }
 
 
 

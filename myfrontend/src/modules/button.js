@@ -132,6 +132,15 @@ export default class Button {
                 })
             break;
 
+            case 'next_button':
+                this.sprite.setScale(0.2)
+                this.sprite.on('pointerdown', () => {
+                    this.click_sfx.play()
+                    father.functions[father.functionSelect]()
+                    father.functionSelect+=1
+                })
+                break;
+
             default:
                 console.warn(`Button type ${this.buttonType} not recognized.`);
         }

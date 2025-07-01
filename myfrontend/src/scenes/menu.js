@@ -48,8 +48,7 @@ export default class Menu extends Phaser.Scene {
 
     //Create Buttons
     this.start_button = new Button(this,this.scale.width/2,this.scale.height/2-200,'start_button')
-    this.tutorial_button = new Button(this,this.scale.width/2,this.scale.height/2,'tutorial_button')
-    this.scores_button = new Button(this, this.scale.width/2, this.scale.height/2+200, 'scores_button')
+    this.scores_button = new Button(this, this.scale.width/2, this.scale.height/2, 'scores_button')
   }
 
   update(){
