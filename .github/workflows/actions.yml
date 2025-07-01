@@ -26,7 +26,7 @@ jobs:
       run: cd myfrontend && npm run lint
 
     #- name: execute tests
-    #  run: cd myfrontend && npm run test
+    #docker   run: cd myfrontend && npm run test
 
   docker:
     runs-on: ubuntu-latest

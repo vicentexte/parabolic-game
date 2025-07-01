@@ -13,6 +13,7 @@ WORKDIR /app
 # Instalar dependencias del backend
 COPY mybackend/package*.json ./mybackend/
 RUN cd mybackend && npm install
+COPY mybackend/ ./mybackend/
 
 # Puerto de backend
 ENV PORT=3000
