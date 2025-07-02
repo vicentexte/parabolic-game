@@ -1,24 +1,22 @@
 # parabolic-game
 
-## Project setup
-```
-npm install
-```
+# Requisites
+- NPM
+- Docker
 
-### Compiles and hot-reloads for development
+## DB
 ```
+docker compose up
+```
+## Frontend
+```
+cd myfrontend
+npm install
 npm run serve
 ```
-
-### Compiles and minifies for production
+## Backend
 ```
-npm run build
+cd mybackend
+npm install
+npm run start
 ```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
