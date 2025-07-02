@@ -33,6 +33,7 @@ export default class Earth extends Phaser.Scene{
   // Constants for gravity physics
   PIXELS_PER_METER = 40;
   gravity = 9.8
+  
         preload() {
           this.load.image('earth_bg', background);
           this.load.image('player', 'https://labs.phaser.io/assets/sprites/phaser-dude.png');
@@ -116,8 +117,9 @@ export default class Earth extends Phaser.Scene{
           cactusGroup.add(cactus2)
           //Overlap between player and cactus => restarts the scene
           this.physics.add.overlap(this.player.sprite, cactusGroup, () => {
-            this.player.life-=1
+            
             this.player.sprite.setPosition(0,this.scale.height)
+            this.player.sprite.setVelocity(0)
           })
 
           //Create vine

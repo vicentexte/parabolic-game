@@ -85,8 +85,9 @@ export default class Button {
                         father.pause_buttonText.destroy()
                         father.music.resume()
                     }
-                    //hacer algun cuadrito de confirmacion
+                    father.music.destroy()
                     father.actualScene.scene.start('Earth');
+                    father.scene.restart()
                 })
             break;
 

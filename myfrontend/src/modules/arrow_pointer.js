@@ -3,9 +3,9 @@ import Phaser from 'phaser'
 export default class ArrowPointer{
     constructor(scene,texture1,texture2){
         this.scene = scene
-        this.image = scene.add.image(500,500,texture1).setScale(0.25).setOrigin(0,0.5).setDepth(0)
+        this.image = scene.add.image(500,500,texture1).setScale(0.25).setOrigin(0,0.5)
         this.image.displayHeight/2
-        this.image_head = scene.add.image(500,500,texture2).setOrigin(0,0.5).setScale(0.25).setDepth(0)
+        this.image_head = scene.add.image(500,500,texture2).setOrigin(0,0.5).setScale(0.25)
         this.create()
     }
 
@@ -38,8 +38,8 @@ export default class ArrowPointer{
         this.image_head.setTint(this.lerpColor(originalColor, targetColor, t))
 
         if (this.scene.actualScene.player.canFire==true && this.scene.actualScene.player.sprite.active == true){
-            this.image.clearAlpha()
-            this.image_head.clearAlpha()
+            this.image.setAlpha(0.7)
+            this.image_head.setAlpha(0.7)
             if (this.scene.scene.isActive('Inputs')){
                 const angleStr = this.scene.scene.get('Inputs').angleInput.value;
                 const velocityStr = this.scene.scene.get('Inputs').velocityInput.value;

@@ -24,8 +24,11 @@ export default class Goal {
 
         //player overlap
         this.scene.physics.add.overlap(this.scene.player.sprite, this.sprite, () => {
+            this.scene.scene.get("Interface").passed == true
             this.scene.player.sprite.disableBody(true)
+            this.scene.scene.get("Interface").lifes += 1
             this.scene.scene.manager.getScene('Interface').handleLevelEnd();
+            
           });
     }
 

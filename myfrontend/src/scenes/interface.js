@@ -24,8 +24,8 @@ export default class Interface extends Phaser.Scene{
   }
 
   //Variables for coins statistics
-  tutorialPassed = false
-
+    tutorialPassed = false
+ 
   preload(){
     this.load.image('menu_button', menu_button)
     this.load.image('pause_button', pause_button) 
@@ -42,6 +42,9 @@ export default class Interface extends Phaser.Scene{
   }
 
   create(){
+
+    this.lifes = 3
+    this.passed = false
     //score count
     this.score = 0
 
@@ -91,7 +94,7 @@ export default class Interface extends Phaser.Scene{
     this.lifeIcon = this.add.image(20, this.coinIcon.y + this.coinIcon.displayHeight + 10, 'player')
       .setOrigin(0,0)
       .setScrollFactor(0);
-    this.lifeText = this.add.text(68, this.lifeIcon.y, 'x' + this.actualScene.player.lifes, style)
+    this.lifeText = this.add.text(68, this.lifeIcon.y, 'x' + this.lifes, style)
   }
 
   //Function to collect coins
@@ -120,7 +123,7 @@ export default class Interface extends Phaser.Scene{
     } else {
       stars = 0;
     }
-    this.lifeText.setText('x3')
+
     const starText = stars === 0 ? '❌ No stars' : '⭐'.repeat(stars);
     this.score += stars
     const finalText = this.add.text(this.actualScene.scale.width / 2, this.actualScene.scale.height / 2, starText, {
@@ -133,7 +136,7 @@ export default class Interface extends Phaser.Scene{
       this.time.delayedCall(2000,() => {
         finalText.destroy()
         this.music.stop()
-        if (this.actualScene.player.lifes>0){
+        if (this.lifes>0){
           if (this.levelScenes[this.actualScene.level] != undefined){
             this.actualScene.scene.start(this.levelScenes[this.actualScene.level])
             this.actual_music = this.music_foreach[this.actualScene.level] //here is not -1 because we need the next song
@@ -142,30 +145,40 @@ export default class Interface extends Phaser.Scene{
             this.music = this.sound.get(this.actual_music)
             this.music.play()
           } else {
+            this.lifes = 3
             this.actualScene.scene.start('EndGame')
+
           }
       } else {
+        this.lifes = 3
         this.actualScene.scene.start('EndGame')
       }
     })
   }
 
   update(){
+    
 
     //Run arrow_pointer's update function
     this.arrow_pointer.update()
 
     //Check if the Inputs scene is active, if not, launch it just in case the player can fire
     if (this.actualScene.player){
-      if (this.actualScene.player.lifes == 0 && this.actualScene.player.canFire==true) {
+      if (this.lifes == 0 && this.actualScene.player.canFire==true) {
         this.actualScene.scene.pause()
         this.handleLevelEnd()
       }
 
       if (!this.scene.isActive('Inputs') && this.actualScene.player.canFire == true && !this.scene.isActive('Tutorial')){
-        if (this.actualScene.player.sprite.active) this.lifeText.setText('x' + this.actualScene.player.lifes)
+        
         this.scene.launch('Inputs')
       }
+      this.lifeText.setText('x' + this.lifes)
+      if(this.actualScene.player.fired == true && this.actualScene.player.canFire == true && this.passed==false){
+        this.actualScene.player.fired = false
+        this.lifes -= 1
+      }
+
     }
     
     if (this.scene.manager.getScenes()[0] != this){

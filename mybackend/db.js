@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const server = process.env.MONGO_SERVER || 'localhost:27017';
-const database = process.env.MONGO_DB || 'db';
+const server = 'localhost:27017';
+const database = 'db';
 
 const conectarDB = async () => {
   try {

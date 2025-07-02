@@ -5,9 +5,9 @@ export default class Player {
     this.sprite = scene.physics.add.sprite(x, y, 'player')
     this.sprite.setCollideWorldBounds(true) 
     this.sprite.setBounce(0.3)
-    this.sprite.setDepth(1)
     this.canFire = false
     this.jumpCount = 0;
+    this.fired = false
   }
   
   fire(angle, velocity) {
@@ -24,6 +24,7 @@ export default class Player {
       this.canFire = false
       this.sprite.setVelocity(velocityX_px, velocityY_px)
       this.jumpCount++;
+      this.fired = true
     }
   }
 
@@ -32,7 +33,6 @@ export default class Player {
   }
 
   update() {
-    this.lifes = 3 - this.jumpCount
     
     if (this.canFire == false){
       if (Math.abs(this.sprite.body.velocity.x) < 0.5 && Math.abs(this.sprite.body.velocity.y) < 2){
